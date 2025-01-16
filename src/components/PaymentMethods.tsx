@@ -4,31 +4,31 @@ export const PaymentMethods = () => {
   const methods = [
     {
       name: "Perfect Money",
-      image: "https://images.unsplash.com/photo-1621504450181-5d356f61d307?w=300&auto=format&fit=crop&q=60",
+      image: "/payment-logos/perfect-money.png",
     },
     {
       name: "Coinpayments",
-      image: "https://images.unsplash.com/photo-1516245834210-c4c142787335?w=300&auto=format&fit=crop&q=60",
+      image: "/payment-logos/coinpayments.png",
     },
     {
       name: "Advcash",
-      image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=300&auto=format&fit=crop&q=60",
+      image: "/payment-logos/advcash.png",
     },
     {
       name: "Payeer",
-      image: "https://images.unsplash.com/photo-1617791160588-241658c0f566?w=300&auto=format&fit=crop&q=60",
+      image: "/payment-logos/payeer.png",
     },
     {
       name: "Best Change",
-      image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=300&auto=format&fit=crop&q=60",
+      image: "/payment-logos/bestchange.png",
     },
     {
       name: "Block Chain",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&auto=format&fit=crop&q=60",
+      image: "/payment-logos/blockchain.png",
     },
     {
       name: "Coin Base",
-      image: "https://images.unsplash.com/photo-1622630998477-20aa696ecb05?w=300&auto=format&fit=crop&q=60",
+      image: "/payment-logos/coinbase.png",
     },
   ];
 
@@ -50,7 +50,11 @@ export const PaymentMethods = () => {
                   <img 
                     src={method.image} 
                     alt={method.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/placeholder.svg";
+                    }}
                   />
                 </div>
                 <span className="font-semibold text-center text-sm">
