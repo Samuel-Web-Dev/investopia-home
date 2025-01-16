@@ -24,7 +24,7 @@ export const PaymentMethods = () => {
     },
     {
       name: "Block Chain",
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=300&auto=format&fit=crop&q=60",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&auto=format&fit=crop&q=60",
     },
     {
       name: "Coin Base",
