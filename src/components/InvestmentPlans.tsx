@@ -80,7 +80,7 @@ export const InvestmentPlans = () => {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full">
+                <Button className="w-full bg-accent hover:bg-accent/90 text-white">
                   Choose Plan
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>

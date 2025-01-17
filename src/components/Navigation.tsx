@@ -25,13 +25,13 @@ export const Navigation = () => {
             <LayoutGrid className="w-4 h-4" />
             Design
           </Link>
-          <Button variant="outline" asChild className="text-white hover:text-primary-dark">
+          <Button variant="outline" asChild className="text-accent border-accent hover:bg-accent hover:text-white">
             <Link to="/login" className="flex items-center gap-2">
               <LogIn className="w-4 h-4" />
               Login
             </Link>
           </Button>
-          <Button asChild className="bg-primary hover:bg-primary/90">
+          <Button asChild className="bg-accent hover:bg-accent/90">
             <Link to="/signup" className="flex items-center gap-2">
               <UserPlus className="w-4 h-4" />
               Sign Up

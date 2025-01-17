@@ -13,11 +13,11 @@ export const Hero = () => {
             Start earning up to 50% returns in just 24-72 hours with our secure and reliable crypto investment plans.
           </p>
           <div className="flex gap-4">
-            <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-lg flex items-center gap-2">
+            <Button className="bg-accent hover:bg-accent/90 text-white px-8 py-6 text-lg rounded-lg flex items-center gap-2">
               Start Investing Now
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <Button variant="outline" className="px-8 py-6 text-lg">
+            <Button variant="outline" className="px-8 py-6 text-lg border-accent text-accent hover:bg-accent hover:text-white">
               View Plans
             </Button>
           </div>
