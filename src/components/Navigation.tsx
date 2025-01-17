@@ -29,10 +29,10 @@ export const Navigation = () => {
           to="/" 
           className="text-2xl font-bold flex items-center gap-2 transition-transform hover:scale-105 duration-300"
         >
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center animate-fadeIn">
-            <span className="text-white font-bold">IP</span>
+          <div className="w-10 h-10 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center animate-pulse">
+            <span className="text-white font-bold text-xl">S</span>
           </div>
-          <span className="animate-fadeIn delay-100">InvestPro</span>
+          <span className="animate-fadeIn delay-100">Simplex</span>
         </Link>
         <div className="hidden md:flex items-center gap-8">
           <Link 
