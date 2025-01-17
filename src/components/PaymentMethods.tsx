@@ -33,9 +33,11 @@ export const PaymentMethods = () => {
   ];
 
   return (
-    <div className="py-20 bg-gray-50">
+    <div className="py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4">Payment Methods</h2>
+        <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          Payment Methods
+        </h2>
         <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
           We support multiple payment methods for your convenience
         </p>
@@ -43,7 +45,7 @@ export const PaymentMethods = () => {
           {methods.map((method, index) => (
             <Card 
               key={index} 
-              className="hover:shadow-lg transition-shadow group"
+              className="hover:shadow-lg transition-all duration-300 hover:scale-105 hover:border-accent/50 group"
             >
               <CardContent className="p-4 flex flex-col items-center justify-center min-h-[140px] space-y-3">
                 <div className="w-12 h-12 rounded-full overflow-hidden group-hover:scale-110 transition-transform">
@@ -57,7 +59,7 @@ export const PaymentMethods = () => {
                     }}
                   />
                 </div>
-                <span className="font-semibold text-center text-sm">
+                <span className="font-semibold text-center text-sm text-gray-700">
                   {method.name}
                 </span>
               </CardContent>
