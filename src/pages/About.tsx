@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { Features } from "@/components/Features";
+import { Stats } from "@/components/Stats";
+import { PaymentMethods } from "@/components/PaymentMethods";
+import { Footer } from "@/components/Footer";
 
 const About = () => {
   return (
