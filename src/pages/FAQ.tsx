@@ -4,8 +4,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Footer } from "@/components/Footer";
+import { MessageCircle, Clock, Shield, Wallet, HelpCircle } from "lucide-react";
 
 const FAQ = () => {
   const faqs = [
@@ -75,10 +77,33 @@ const FAQ = () => {
     },
   ];
 
+  const supportSections = [
+    {
+      icon: <MessageCircle className="w-12 h-12 text-accent" />,
+      title: "24/7 Support",
+      description: "Our dedicated support team is available around the clock to assist you with any questions or concerns."
+    },
+    {
+      icon: <Clock className="w-12 h-12 text-accent" />,
+      title: "Quick Processing",
+      description: "Fast deposit processing and withdrawals completed within 24 hours."
+    },
+    {
+      icon: <Shield className="w-12 h-12 text-accent" />,
+      title: "Secure Platform",
+      description: "Advanced security measures including DDoS protection and data encryption."
+    },
+    {
+      icon: <Wallet className="w-12 h-12 text-accent" />,
+      title: "Multiple Payment Options",
+      description: "Support for various payment methods including Bitcoin and other popular platforms."
+    }
+  ];
+
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white py-24">
+      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white py-16 md:py-24">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -86,35 +111,76 @@ const FAQ = () => {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-3xl md:text-5xl font-bold mb-6">
               Frequently Asked Questions
             </h1>
-            <p className="text-xl text-gray-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto">
               Find answers to common questions about Simplex's cryptocurrency investment platform
             </p>
           </motion.div>
         </div>
-        {/* Animated background elements */}
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/30 rounded-full blur-3xl" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/30 rounded-full blur-3xl" />
       </div>
 
-      {/* FAQ Section */}
-      <div className="py-20 bg-gray-50">
+      {/* Support Sections */}
+      <div className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left text-lg font-semibold hover:text-primary">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-600">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {supportSections.map((section, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <div className="flex flex-col items-center text-center space-y-4">
+                  {section.icon}
+                  <h3 className="text-xl font-semibold">{section.title}</h3>
+                  <p className="text-gray-600">{section.description}</p>
+                </div>
+              </motion.div>
             ))}
-          </Accordion>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Accordion Section */}
+      <div className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
+              Common Questions
+            </h2>
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="text-left text-lg font-semibold hover:text-primary">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-600">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Support Section */}
+      <div className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4 text-center">
+          <HelpCircle className="w-16 h-16 text-accent mx-auto mb-6" />
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Still Have Questions?</h2>
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            Can't find the answer you're looking for? Our support team is here to help you 24/7.
+          </p>
+          <Button className="bg-accent hover:bg-accent/90">
+            Contact Support
+          </Button>
         </div>
       </div>
 

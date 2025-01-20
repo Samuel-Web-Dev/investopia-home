@@ -25,8 +25,8 @@ const heroImages = [
 
 export const Hero = () => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white py-24">
-      <div className="container mx-auto px-4">
+    <div className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white">
+      <div className="container mx-auto px-4 py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="relative z-10">
             <Carousel
@@ -44,26 +44,26 @@ export const Hero = () => {
               <CarouselContent>
                 {heroTexts.map((text, index) => (
                   <CarouselItem key={index}>
-                    <h1 className="text-5xl font-bold mb-6">{text}</h1>
+                    <h1 className="text-3xl md:text-5xl font-bold mb-6">{text}</h1>
                   </CarouselItem>
                 ))}
               </CarouselContent>
             </Carousel>
-            <p className="text-xl mb-8 text-gray-300 opacity-0 animate-[fadeIn_0.6s_ease-out_0.2s_forwards]">
+            <p className="text-lg md:text-xl mb-8 text-gray-300 opacity-0 animate-[fadeIn_0.6s_ease-out_0.2s_forwards]">
               Start earning up to 50% returns in just 24-72 hours with our secure and reliable crypto investment plans.
             </p>
-            <div className="flex gap-4 opacity-0 animate-[fadeIn_0.6s_ease-out_0.4s_forwards]">
+            <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-[fadeIn_0.6s_ease-out_0.4s_forwards]">
               <Button 
-                className="bg-accent hover:bg-accent/90 text-white px-8 py-6 text-lg rounded-lg flex items-center gap-2 
-                  transition-all duration-300 hover:translate-x-1 hover:shadow-lg"
+                className="bg-accent hover:bg-accent/90 text-white px-6 py-4 text-lg rounded-lg flex items-center justify-center gap-2 
+                  transition-all duration-300 hover:translate-x-1 hover:shadow-lg w-full sm:w-auto"
               >
                 Start Investing Now
                 <ArrowRight className="w-5 h-5 animate-[bounceRight_1s_ease-in-out_infinite]" />
               </Button>
               <Button 
                 variant="outline" 
-                className="px-8 py-6 text-lg border-accent text-accent hover:bg-accent hover:text-white 
-                  transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className="px-6 py-4 text-lg border-accent text-accent hover:bg-accent hover:text-white 
+                  transition-all duration-300 hover:scale-105 hover:shadow-lg w-full sm:w-auto"
               >
                 View Plans
               </Button>
