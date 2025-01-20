@@ -1,6 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, DollarSign, Percent } from "lucide-react";
 import { useState, useEffect } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const heroTexts = [
   "Invest in Crypto & Earn Daily Returns",
@@ -16,46 +24,31 @@ const heroImages = [
 ];
 
 export const Hero = () => {
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isTextFading, setIsTextFading] = useState(false);
-  const [isImageFading, setIsImageFading] = useState(false);
-
-  useEffect(() => {
-    const textInterval = setInterval(() => {
-      setIsTextFading(true);
-      setTimeout(() => {
-        setCurrentTextIndex((prev) => (prev + 1) % heroTexts.length);
-        setIsTextFading(false);
-      }, 500);
-    }, 5000);
-
-    const imageInterval = setInterval(() => {
-      setIsImageFading(true);
-      setTimeout(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-        setIsImageFading(false);
-      }, 500);
-    }, 7000);
-
-    return () => {
-      clearInterval(textInterval);
-      clearInterval(imageInterval);
-    };
-  }, []);
-
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white py-24">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="relative z-10">
-            <h1 
-              className={`text-5xl font-bold mb-6 transition-opacity duration-500 ${
-                isTextFading ? 'opacity-0' : 'opacity-100'
-              }`}
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              plugins={[
+                Autoplay({
+                  delay: 5000,
+                }),
+              ]}
+              className="w-full"
             >
-              {heroTexts[currentTextIndex]}
-            </h1>
+              <CarouselContent>
+                {heroTexts.map((text, index) => (
+                  <CarouselItem key={index}>
+                    <h1 className="text-5xl font-bold mb-6">{text}</h1>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
             <p className="text-xl mb-8 text-gray-300 opacity-0 animate-[fadeIn_0.6s_ease-out_0.2s_forwards]">
               Start earning up to 50% returns in just 24-72 hours with our secure and reliable crypto investment plans.
             </p>
@@ -77,17 +70,32 @@ export const Hero = () => {
             </div>
           </div>
           <div className="relative hidden md:block">
-            <div 
-              className={`rounded-2xl overflow-hidden shadow-2xl transition-opacity duration-500 ${
-                isImageFading ? 'opacity-0' : 'opacity-100'
-              }`}
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              plugins={[
+                Autoplay({
+                  delay: 7000,
+                }),
+              ]}
+              className="w-full"
             >
-              <img 
-                src={heroImages[currentImageIndex]} 
-                alt="Investor" 
-                className="w-full h-[600px] object-cover"
-              />
-            </div>
+              <CarouselContent>
+                {heroImages.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <div className="rounded-2xl overflow-hidden shadow-2xl">
+                      <img 
+                        src={image} 
+                        alt="Investor"
+                        className="w-full h-[400px] object-cover"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         </div>
       </div>

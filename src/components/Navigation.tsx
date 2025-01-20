@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Info, Settings, LayoutGrid } from "lucide-react";
+import { LogIn, UserPlus, Info, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
@@ -43,23 +43,16 @@ export const Navigation = () => {
             About
           </Link>
           <Link 
-            to="/service" 
+            to="/faq" 
             className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn delay-300"
           >
-            <Settings className="w-4 h-4" />
-            Services
-          </Link>
-          <Link 
-            to="/design" 
-            className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn delay-400"
-          >
-            <LayoutGrid className="w-4 h-4" />
-            Design
+            <HelpCircle className="w-4 h-4" />
+            FAQ
           </Link>
           <Button 
             variant="outline" 
             asChild 
-            className="text-accent border-accent hover:bg-accent hover:text-white transition-all duration-300 animate-fadeIn delay-500"
+            className="text-accent border-accent hover:bg-accent hover:text-white transition-all duration-300 animate-fadeIn delay-400"
           >
             <Link to="/login" className="flex items-center gap-2">
               <LogIn className="w-4 h-4" />
@@ -68,7 +61,7 @@ export const Navigation = () => {
           </Button>
           <Button 
             asChild 
-            className="bg-accent hover:bg-accent/90 transition-all duration-300 animate-fadeIn delay-600"
+            className="bg-accent hover:bg-accent/90 transition-all duration-300 animate-fadeIn delay-500"
           >
             <Link to="/signup" className="flex items-center gap-2">
               <UserPlus className="w-4 h-4" />
