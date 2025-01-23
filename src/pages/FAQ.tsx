@@ -7,9 +7,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Footer } from "@/components/Footer";
-import { MessageCircle, Clock, Shield, Wallet, HelpCircle } from "lucide-react";
+import { MessageCircle, Clock, Shield, Wallet, HelpCircle, Mail, Phone } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const FAQ = () => {
+  const { toast } = useToast();
+  
   const faqs = [
     {
       question: "What is the main idea behind the establishment of Simplex?",
@@ -100,28 +103,43 @@ const FAQ = () => {
     }
   ];
 
+  const handleContactSupport = () => {
+    toast({
+      title: "Support Request Sent",
+      description: "Our team will get back to you within 24 hours.",
+    });
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white py-16 md:py-24">
+      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <h1 className="text-3xl md:text-5xl font-bold mb-6">
-              Frequently Asked Questions
-            </h1>
-            <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto">
-              Find answers to common questions about Simplex's cryptocurrency investment platform
-            </p>
-          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-6"
+            >
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                Frequently Asked Questions
+              </h1>
+              <p className="text-lg md:text-xl text-gray-200">
+                Find answers to common questions about Simplex's cryptocurrency investment platform
+              </p>
+            </motion.div>
+            <div className="hidden lg:flex justify-end">
+              <img 
+                src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+                alt="Support"
+                className="rounded-lg shadow-xl h-[300px] w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          </div>
         </div>
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/30 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/30 rounded-full blur-3xl" />
       </div>
 
       {/* Support Sections */}
@@ -156,11 +174,15 @@ const FAQ = () => {
             </h2>
             <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left text-lg font-semibold hover:text-primary">
+                <AccordionItem 
+                  key={index} 
+                  value={`item-${index}`}
+                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <AccordionTrigger className="text-left text-lg font-semibold px-6 py-4 hover:text-primary">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-600">
+                  <AccordionContent className="text-gray-600 px-6 pb-4">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -172,15 +194,42 @@ const FAQ = () => {
 
       {/* Contact Support Section */}
       <div className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 text-center">
-          <HelpCircle className="w-16 h-16 text-accent mx-auto mb-6" />
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Still Have Questions?</h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Can't find the answer you're looking for? Our support team is here to help you 24/7.
-          </p>
-          <Button className="bg-accent hover:bg-accent/90">
-            Contact Support
-          </Button>
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+            <div className="text-center mb-8">
+              <HelpCircle className="w-16 h-16 text-accent mx-auto mb-6" />
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">Still Have Questions?</h2>
+              <p className="text-gray-600 mb-8">
+                Can't find the answer you're looking for? Our support team is here to help you 24/7.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                <Mail className="w-8 h-8 text-accent" />
+                <div>
+                  <h3 className="font-semibold">Email Support</h3>
+                  <p className="text-gray-600">support@simplex.com</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                <Phone className="w-8 h-8 text-accent" />
+                <div>
+                  <h3 className="font-semibold">Phone Support</h3>
+                  <p className="text-gray-600">+1 (555) 123-4567</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mt-8">
+              <Button 
+                onClick={handleContactSupport}
+                className="bg-accent hover:bg-accent/90 text-white px-8 py-2"
+              >
+                Contact Support
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -8,11 +8,11 @@ import { Footer } from "@/components/Footer";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white py-24">
+      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-16">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold leading-tight">
                 Welcome to Simplex
@@ -28,7 +28,8 @@ const About = () => {
               <img 
                 src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
                 alt="Professional Investor"
-                className="rounded-lg shadow-xl"
+                className="rounded-lg shadow-xl h-[300px] w-full object-cover"
+                loading="lazy"
               />
             </div>
           </div>
@@ -36,9 +37,9 @@ const About = () => {
       </div>
 
       {/* About Simplex Section */}
-      <div className="py-20 bg-white">
+      <div className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <h2 className="text-3xl font-bold text-primary-dark">About Simplex</h2>
               <p className="text-gray-600">
@@ -53,17 +54,13 @@ const About = () => {
                 the currency and set up successful projects that harnessed the power lies within the 
                 Blockchain to create attractive products.
               </p>
-              <p className="text-gray-600">
-                Simplex is a company that owns both major Crypto trading Company. This way we are able 
-                to take advantage of our abilities to offer our customers high returns and constant 
-                investment growth.
-              </p>
             </div>
             <div>
               <img 
                 src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
                 alt="Crypto Investment"
-                className="rounded-lg shadow-xl"
+                className="rounded-lg shadow-xl h-[300px] w-full object-cover"
+                loading="lazy"
               />
             </div>
           </div>
@@ -148,7 +145,6 @@ const About = () => {
         </div>
       </div>
 
-      {/* Include existing components */}
       <Features />
       <Stats />
       <PaymentMethods />
