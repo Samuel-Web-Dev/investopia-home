@@ -112,40 +112,36 @@ const FAQ = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-6"
-            >
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Frequently Asked Questions
-              </h1>
-              <p className="text-lg md:text-xl text-gray-200">
-                Find answers to common questions about Simplex's cryptocurrency investment platform
-              </p>
-            </motion.div>
-            <div className="hidden lg:flex justify-end">
-              <img 
-                src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
-                alt="Support"
-                className="rounded-lg shadow-xl h-[300px] w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
+      {/* Hero Section with Background Image */}
+      <div className="relative min-h-[50vh] flex items-center justify-center">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ 
+            backgroundImage: 'url(https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7)',
+            filter: 'brightness(0.5)'
+          }}
+        />
+        <div className="relative z-10 container mx-auto px-4 py-20 md:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center space-y-6"
+          >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto">
+              Find answers to common questions about Simplex's cryptocurrency investment platform
+            </p>
+          </motion.div>
         </div>
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
       </div>
 
       {/* Support Sections */}
       <div className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {supportSections.map((section, index) => (
               <motion.div
                 key={index}
