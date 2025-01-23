@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
+import Contact from "./pages/Contact";
+import HowToInvest from "./pages/HowToInvest";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,8 @@ const App = () => (
           <Route path="/signup" element={<Signup />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/how-to-invest" element={<HowToInvest />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

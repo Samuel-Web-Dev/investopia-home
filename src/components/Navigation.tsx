@@ -30,7 +30,7 @@ export const Navigation = () => {
   return (
     <nav 
       className={`
-        bg-primary-dark/95 text-white py-4 px-6 fixed w-full top-0 z-50 
+        bg-primary-dark/95 text-white py-4 px-6 fixed w-full top-0 left-0 right-0 z-50
         transition-all duration-300 ease-in-out
         ${scrolled ? 'shadow-lg backdrop-blur-sm' : ''}
       `}
