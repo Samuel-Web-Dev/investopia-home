@@ -48,79 +48,80 @@ export const Navigation = () => {
           <span className="animate-fadeIn delay-100">Simplex</span>
         </Link>
 
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-6">
-        {navItems.map((item) => (
-          <Link 
-            key={item.label}
-            to={item.to} 
-            className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn"
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6">
+          {navItems.map((item) => (
+            <Link 
+              key={item.label}
+              to={item.to} 
+              className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn"
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+          <Button 
+            variant="outline" 
+            asChild 
+            className="text-accent border-accent hover:bg-accent hover:text-white transition-all duration-300"
           >
-            {item.icon}
-            {item.label}
-          </Link>
-        ))}
-        <Button 
-          variant="outline" 
-          asChild 
-          className="text-accent border-accent hover:bg-accent hover:text-white transition-all duration-300"
-        >
-          <Link to="/login" className="flex items-center gap-2">
-            <LogIn className="w-4 h-4" />
-            Login
-          </Link>
-        </Button>
-        <Button 
-          asChild 
-          className="bg-accent hover:bg-accent/90 transition-all duration-300"
-        >
-          <Link to="/signup" className="flex items-center gap-2">
-            <UserPlus className="w-4 h-4" />
-            Sign Up
-          </Link>
-        </Button>
-      </div>
+            <Link to="/login" className="flex items-center gap-2">
+              <LogIn className="w-4 h-4" />
+              Login
+            </Link>
+          </Button>
+          <Button 
+            asChild 
+            className="bg-accent hover:bg-accent/90 transition-all duration-300"
+          >
+            <Link to="/signup" className="flex items-center gap-2">
+              <UserPlus className="w-4 h-4" />
+              Sign Up
+            </Link>
+          </Button>
+        </div>
 
-      {/* Mobile Navigation */}
-      <div className="md:hidden">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-white">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] bg-primary-dark text-white">
-            <div className="flex flex-col gap-4 pt-10">
-              {navItems.map((item) => (
+        {/* Mobile Navigation */}
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="text-white">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] bg-primary-dark text-white">
+              <div className="flex flex-col gap-4 pt-10">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                ))}
                 <Link
-                  key={item.label}
-                  to={item.to}
+                  to="/login"
                   className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item.icon}
-                  {item.label}
+                  <LogIn className="w-4 h-4" />
+                  Login
                 </Link>
-              ))}
-              <Link
-                to="/login"
-                className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <LogIn className="w-4 h-4" />
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="flex items-center gap-2 p-2 bg-accent hover:bg-accent/90 rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <UserPlus className="w-4 h-4" />
-                Sign Up
-              </Link>
-            </div>
-          </SheetContent>
-        </Sheet>
+                <Link
+                  to="/signup"
+                  className="flex items-center gap-2 p-2 bg-accent hover:bg-accent/90 rounded-lg transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Sign Up
+                </Link>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </nav>
   );

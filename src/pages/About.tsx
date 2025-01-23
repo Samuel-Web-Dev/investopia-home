@@ -10,14 +10,14 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white">
+      <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white pt-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-16">
-            <div className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-20">
+            <div className="space-y-8">
               <h1 className="text-4xl md:text-5xl font-bold leading-tight">
                 Welcome to Simplex
               </h1>
-              <p className="text-xl text-gray-200">
+              <p className="text-xl text-gray-200 leading-relaxed">
                 Your trusted partner in cryptocurrency investment and trading
               </p>
               <Button className="bg-accent hover:bg-accent/90">
@@ -28,7 +28,7 @@ const About = () => {
               <img 
                 src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
                 alt="Professional Investor"
-                className="rounded-lg shadow-xl h-[300px] w-full object-cover"
+                className="rounded-lg shadow-xl h-[400px] w-full object-cover"
                 loading="lazy"
               />
             </div>
