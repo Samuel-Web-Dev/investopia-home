@@ -25,10 +25,10 @@ const heroImages = [
 
 export const Hero = () => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white">
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="relative z-10">
+    <div className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white mt-16">
+      <div className="container mx-auto px-4 py-20 md:py-28">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="relative z-10 space-y-8">
             <Carousel
               opts={{
                 align: "start",
@@ -44,7 +44,7 @@ export const Hero = () => {
               <CarouselContent>
                 {heroTexts.map((text, index) => (
                   <CarouselItem key={index}>
-                    <h1 className="text-3xl md:text-5xl font-bold mb-6">{text}</h1>
+                    <h1 className="text-3xl md:text-5xl font-bold leading-tight">{text}</h1>
                   </CarouselItem>
                 ))}
               </CarouselContent>
