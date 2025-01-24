@@ -12,7 +12,7 @@ const About = () => {
       {/* Hero Section */}
       <div className="relative bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white pt-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-12">
             <div className="space-y-8">
               <h1 className="text-4xl md:text-5xl font-bold leading-tight">
                 Welcome to Simplex

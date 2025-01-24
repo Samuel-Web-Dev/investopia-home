@@ -117,7 +117,7 @@ const FAQ = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7)',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1551434678-e076c223a692?w=800)',
             filter: 'brightness(0.5)'
           }}
         />
