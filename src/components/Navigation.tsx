@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Info, HelpCircle, Menu, Phone, Coins } from "lucide-react";
+import { LogIn, UserPlus, Info, HelpCircle, Menu, Phone, Coins, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
@@ -7,10 +7,18 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,10 +31,11 @@ export const Navigation = () => {
   }, []);
 
   const navItems = [
-    { to: "/about", icon: <Info className="w-4 h-4" />, label: "About" },
-    { to: "/faq", icon: <HelpCircle className="w-4 h-4" />, label: "FAQ" },
-    { to: "/contact", icon: <Phone className="w-4 h-4" />, label: "Contact" },
-    { to: "/how-to-invest", icon: <Coins className="w-4 h-4" />, label: "How to Invest" },
+    { to: "/about", icon: <Info className="w-4 h-4" />, label: t('nav.about') },
+    { to: "/faq", icon: <HelpCircle className="w-4 h-4" />, label: t('nav.faq') },
+    { to: "/contact", icon: <Phone className="w-4 h-4" />, label: t('nav.contact') },
+    { to: "/how-to-invest", icon: <Coins className="w-4 h-4" />, label: t('nav.howToInvest') },
+    { to: "/dashboard", icon: <Menu className="w-4 h-4" />, label: t('nav.dashboard') },
   ];
 
   return (
@@ -60,6 +69,27 @@ export const Navigation = () => {
               {item.label}
             </Link>
           ))}
+          
+          {/* Language Selector */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="text-white">
+                <Globe className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setLanguage('en')}>
+                🇺🇸 English {language === 'en' && '✓'}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage('es')}>
+                🇪🇸 Español {language === 'es' && '✓'}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage('fr')}>
+                🇫🇷 Français {language === 'fr' && '✓'}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button 
             variant="outline" 
             asChild 
@@ -67,7 +97,7 @@ export const Navigation = () => {
           >
             <Link to="/login" className="flex items-center gap-2">
               <LogIn className="w-4 h-4" />
-              Login
+              {t('nav.login')}
             </Link>
           </Button>
           <Button 
@@ -76,7 +106,7 @@ export const Navigation = () => {
           >
             <Link to="/signup" className="flex items-center gap-2">
               <UserPlus className="w-4 h-4" />
-              Sign Up
+              {t('nav.signup')}
             </Link>
           </Button>
         </div>
@@ -102,13 +132,29 @@ export const Navigation = () => {
                     {item.label}
                   </Link>
                 ))}
+                
+                {/* Mobile Language Selector */}
+                <div className="p-2">
+                  <div className="flex flex-col gap-2">
+                    <button onClick={() => setLanguage('en')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
+                      🇺🇸 English {language === 'en' && '✓'}
+                    </button>
+                    <button onClick={() => setLanguage('es')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
+                      🇪🇸 Español {language === 'es' && '✓'}
+                    </button>
+                    <button onClick={() => setLanguage('fr')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
+                      🇫🇷 Français {language === 'fr' && '✓'}
+                    </button>
+                  </div>
+                </div>
+
                 <Link
                   to="/login"
                   className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <LogIn className="w-4 h-4" />
-                  Login
+                  {t('nav.login')}
                 </Link>
                 <Link
                   to="/signup"
@@ -116,7 +162,7 @@ export const Navigation = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <UserPlus className="w-4 h-4" />
-                  Sign Up
+                  {t('nav.signup')}
                 </Link>
               </div>
             </SheetContent>
