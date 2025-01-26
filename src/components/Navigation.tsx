@@ -1,7 +1,7 @@
 import { LogIn, UserPlus, Info, HelpCircle, Menu, Phone, Coins, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Sheet,
   SheetContent,
@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/contexts/LanguageContext";
+import type { Language } from "@/contexts/LanguageContext";
 
 export const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -42,7 +43,7 @@ export const Navigation = () => {
   ], [t]);
 
   // Memoize language change handler
-  const handleLanguageChange = useCallback((newLang: string) => {
+  const handleLanguageChange = useCallback((newLang: Language) => {
     setLanguage(newLang);
   }, [setLanguage]);
 
