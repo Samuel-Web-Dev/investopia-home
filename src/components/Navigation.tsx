@@ -20,29 +20,38 @@ export const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 20;
-      setScrolled(isScrolled);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+  // Memoize scroll handler
+  const handleScroll = useCallback(() => {
+    const isScrolled = window.scrollY > 20;
+    setScrolled(isScrolled);
   }, []);
 
-  const navItems = [
+  useEffect(() => {
+    // Use passive event listener for better scroll performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  // Memoize navigation items
+  const navItems = useMemo(() => [
     { to: "/about", icon: <Info className="w-4 h-4" />, label: t('nav.about') },
     { to: "/faq", icon: <HelpCircle className="w-4 h-4" />, label: t('nav.faq') },
     { to: "/contact", icon: <Phone className="w-4 h-4" />, label: t('nav.contact') },
     { to: "/how-to-invest", icon: <Coins className="w-4 h-4" />, label: t('nav.howToInvest') },
     { to: "/dashboard", icon: <Menu className="w-4 h-4" />, label: t('nav.dashboard') },
-  ];
+  ], [t]);
+
+  // Memoize language change handler
+  const handleLanguageChange = useCallback((newLang: string) => {
+    setLanguage(newLang);
+  }, [setLanguage]);
 
   return (
     <nav 
       className={`
-        bg-primary-dark/95 text-white py-4 px-6 fixed w-full top-0 left-0 right-0 z-50
-        transition-all duration-300 ease-in-out
+        fixed w-full top-0 left-0 right-0 z-50
+        bg-primary-dark/95 text-white py-4 px-6
+        transition-all duration-300 ease-in-out will-change-transform
         ${scrolled ? 'shadow-lg backdrop-blur-sm' : ''}
       `}
     >
