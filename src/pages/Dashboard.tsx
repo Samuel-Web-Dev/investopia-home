@@ -6,16 +6,11 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   History,
-  Users,
-  UserCog,
   LogOut,
   HeadphonesIcon,
-  TrendingUp,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
-  Area,
-  AreaChart,
   Bar,
   BarChart,
   ResponsiveContainer,
@@ -23,7 +18,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 
 const Dashboard = () => {
   // Mock data - replace with actual data from your backend
@@ -31,19 +25,7 @@ const Dashboard = () => {
     username: "JohnDoe",
     balance: "$5,000.00",
     earnedToday: "$250.00",
-    registrationDate: "2024-01-15",
-    lastAccess: "2024-03-19 14:30",
   };
-
-  // Mock data for charts
-  const earningsData = [
-    { name: "Jan", amount: 2400 },
-    { name: "Feb", amount: 1398 },
-    { name: "Mar", amount: 9800 },
-    { name: "Apr", amount: 3908 },
-    { name: "May", amount: 4800 },
-    { name: "Jun", amount: 3800 },
-  ];
 
   const depositData = [
     { name: "Mon", value: 1200 },
@@ -105,7 +87,7 @@ const Dashboard = () => {
         </div>
 
         {/* Account Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -132,77 +114,52 @@ const Dashboard = () => {
               <p className="text-xs text-green-500 mt-1">+12.5% from yesterday</p>
             </CardContent>
           </Card>
-          <Card className="hover:shadow-lg transition-all">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Registration Date
-              </CardTitle>
-              <History className="w-4 h-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{userData.registrationDate}</div>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-lg transition-all">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Last Access
-              </CardTitle>
-              <History className="w-4 h-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-lg font-bold">{userData.lastAccess}</div>
-            </CardContent>
-          </Card>
         </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Earnings Overview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={earningsData}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Area
-                      type="monotone"
-                      dataKey="amount"
-                      stroke="#8884d8"
-                      fill="#8884d8"
-                      fillOpacity={0.2}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Weekly Deposits</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={depositData}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="#8884d8" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        {/* Deposits Chart */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-lg">Deposits</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={depositData}>
+                  <XAxis 
+                    dataKey="name" 
+                    stroke="#888888"
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis 
+                    stroke="#888888"
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={() => ``}
+                  />
+                  <Tooltip 
+                    cursor={false}
+                    contentStyle={{
+                      background: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "0.5rem",
+                    }}
+                  />
+                  <Bar 
+                    dataKey="value" 
+                    fill="hsl(var(--primary))"
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link to="/deposit">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="flex items-center justify-between p-6">
@@ -230,57 +187,6 @@ const Dashboard = () => {
                     </p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/referral">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardContent className="flex items-center justify-between p-6">
-                <div className="flex items-center space-x-4">
-                  <Users className="w-8 h-8 text-blue-500" />
-                  <div>
-                    <h3 className="font-semibold">Referral Program</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Invite friends & earn
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-
-        {/* Additional Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Link to="/deposit-history">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <History className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Deposit History</h3>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/withdraw-history">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <History className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Withdraw History</h3>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/earnings-history">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <History className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Earnings History</h3>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/edit-account">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <UserCog className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Edit Account</h3>
               </CardContent>
             </Card>
           </Link>
