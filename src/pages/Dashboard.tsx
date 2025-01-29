@@ -8,6 +8,9 @@ import {
   History,
   LogOut,
   HeadphonesIcon,
+  Activity,
+  Users,
+  Globe,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -20,11 +23,13 @@ import {
 } from "recharts";
 
 const Dashboard = () => {
-  // Mock data - replace with actual data from your backend
   const userData = {
     username: "JohnDoe",
     balance: "$5,000.00",
     earnedToday: "$250.00",
+    totalInvestors: "1,234",
+    activeInvestments: "3",
+    portfolioGrowth: "+15.4%",
   };
 
   const depositData = [
@@ -35,6 +40,12 @@ const Dashboard = () => {
     { name: "Fri", value: 1400 },
     { name: "Sat", value: 1200 },
     { name: "Sun", value: 800 },
+  ];
+
+  const recentTransactions = [
+    { type: "Deposit", amount: "+$1,000", date: "2024-03-15", status: "Completed" },
+    { type: "Withdrawal", amount: "-$500", date: "2024-03-14", status: "Pending" },
+    { type: "Investment", amount: "+$2,500", date: "2024-03-13", status: "Completed" },
   ];
 
   return (
@@ -63,7 +74,6 @@ const Dashboard = () => {
               variant="ghost"
               className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
               onClick={() => {
-                // Add logout logic here
                 console.log("Logout clicked");
               }}
             >
@@ -82,16 +92,16 @@ const Dashboard = () => {
             Welcome back, {userData.username}! 👋
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Here's what's happening with your account today.
+            Here's what's happening with your investments today.
           </p>
         </div>
 
-        {/* Account Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* Key Metrics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Balance
+                Total Balance
               </CardTitle>
               <Wallet className="w-4 h-4 text-primary" />
             </CardHeader>
@@ -102,61 +112,116 @@ const Dashboard = () => {
               </p>
             </CardContent>
           </Card>
+
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Earned Today
+                Portfolio Growth
               </CardTitle>
-              <ArrowUpRight className="w-4 h-4 text-green-500" />
+              <Activity className="w-4 h-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.earnedToday}</div>
-              <p className="text-xs text-green-500 mt-1">+12.5% from yesterday</p>
+              <div className="text-2xl font-bold text-green-500">
+                {userData.portfolioGrowth}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Last 30 days
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-all">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Active Investments
+              </CardTitle>
+              <Globe className="w-4 h-4 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{userData.activeInvestments}</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Across different markets
+              </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Deposits Chart */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-lg">Deposits</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={depositData}>
-                  <XAxis 
-                    dataKey="name" 
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={() => ``}
-                  />
-                  <Tooltip 
-                    cursor={false}
-                    contentStyle={{
-                      background: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "0.5rem",
-                    }}
-                  />
-                  <Bar 
-                    dataKey="value" 
-                    fill="hsl(var(--primary))"
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Charts and Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* Deposits Chart */}
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-lg">Deposits</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={depositData}>
+                    <XAxis 
+                      dataKey="name" 
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis 
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={() => ``}
+                    />
+                    <Tooltip 
+                      cursor={false}
+                      contentStyle={{
+                        background: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "0.5rem",
+                      }}
+                    />
+                    <Bar 
+                      dataKey="value" 
+                      fill="hsl(var(--primary))"
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recent Transactions */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Recent Transactions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentTransactions.map((transaction, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                  >
+                    <div>
+                      <p className="font-medium">{transaction.type}</p>
+                      <p className="text-sm text-gray-500">{transaction.date}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className={`font-bold ${
+                        transaction.amount.startsWith('+') 
+                          ? 'text-green-500' 
+                          : 'text-red-500'
+                      }`}>
+                        {transaction.amount}
+                      </p>
+                      <p className="text-sm text-gray-500">{transaction.status}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
