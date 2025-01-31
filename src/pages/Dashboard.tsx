@@ -5,14 +5,12 @@ import {
   Wallet,
   ArrowUpRight,
   ArrowDownRight,
-  History,
   LogOut,
   HeadphonesIcon,
   Activity,
-  Users,
   Globe,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Bar,
   BarChart,
@@ -21,8 +19,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import Swal from 'sweetalert2';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const userData = {
     username: "JohnDoe",
     balance: "$5,000.00",
@@ -47,6 +47,15 @@ const Dashboard = () => {
     { type: "Withdrawal", amount: "-$500", date: "2024-03-14", status: "Pending" },
     { type: "Investment", amount: "+$2,500", date: "2024-03-13", status: "Completed" },
   ];
+
+  const handleWithdraw = () => {
+    Swal.fire({
+      title: 'Withdrawal Unavailable',
+      text: 'Withdrawals cannot be made at this time.',
+      icon: 'info',
+      confirmButtonColor: '#8B5CF6',
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -225,7 +234,7 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Link to="/deposit">
+          <Link to="/deposit-plans">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="flex items-center justify-between p-6">
                 <div className="flex items-center space-x-4">
@@ -240,7 +249,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </Link>
-          <Link to="/withdraw">
+          <div onClick={handleWithdraw}>
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="flex items-center justify-between p-6">
                 <div className="flex items-center space-x-4">
@@ -254,7 +263,7 @@ const Dashboard = () => {
                 </div>
               </CardContent>
             </Card>
-          </Link>
+          </div>
         </div>
       </div>
     </div>
