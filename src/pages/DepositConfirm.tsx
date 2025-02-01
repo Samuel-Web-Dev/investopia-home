@@ -29,8 +29,8 @@ const DepositConfirm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-gray-50 py-20">
+      <div className="max-w-3xl mx-auto px-4">
         <Card className="mb-8">
           <CardContent className="p-6">
             <h1 className="text-2xl font-bold mb-6">Confirm Your Deposit</h1>
