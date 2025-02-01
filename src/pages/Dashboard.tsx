@@ -7,14 +7,10 @@ import {
   ArrowDownRight,
   LogOut,
   HeadphonesIcon,
-  Activity,
-  Globe,
   Settings,
   Bell,
   MessageSquare,
-  HelpCircle,
   FileText,
-  Users,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -52,12 +48,6 @@ const Dashboard = () => {
     { type: "Deposit", amount: "+$1,000", date: "2024-03-15", status: "Completed" },
     { type: "Withdrawal", amount: "-$500", date: "2024-03-14", status: "Pending" },
     { type: "Investment", amount: "+$2,500", date: "2024-03-13", status: "Completed" },
-  ];
-
-  const notifications = [
-    { title: "New Investment Return", message: "Your investment has generated returns", time: "2 hours ago" },
-    { title: "Security Alert", message: "New login detected from your account", time: "5 hours ago" },
-    { title: "Promotion", message: "Special bonus for loyal investors", time: "1 day ago" },
   ];
 
   const handleWithdraw = () => {
@@ -125,6 +115,48 @@ const Dashboard = () => {
           </p>
         </div>
 
+        {/* Account Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Wallet className="w-5 h-5" />
+                Current Balance
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold">{userData.balance}</div>
+              <p className="text-sm text-muted-foreground">
+                {userData.portfolioGrowth} this month
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Active Investments</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold">{userData.activeInvestments}</div>
+              <p className="text-sm text-muted-foreground">
+                Earned {userData.earnedToday} today
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Total Investors</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold">{userData.totalInvestors}</div>
+              <p className="text-sm text-muted-foreground">
+                Growing community
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Link to="/deposit-plans">
@@ -159,8 +191,22 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Additional Features */}
+        {/* Account Settings and Support */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Settings className="w-5 h-5" />
+                Account Settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Button className="w-full" variant="outline">
+                Manage Settings
+              </Button>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
@@ -188,52 +234,14 @@ const Dashboard = () => {
               </Button>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Settings className="w-5 h-5" />
-                Account Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" variant="outline">
-                Manage Settings
-              </Button>
-            </CardContent>
-          </Card>
         </div>
 
-        {/* Notifications */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Bell className="w-5 h-5" />
-              Recent Notifications
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {notifications.map((notification, index) => (
-                <div key={index} className="flex items-start space-x-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <div className="flex-1">
-                    <h4 className="font-semibold">{notification.title}</h4>
-                    <p className="text-sm text-gray-600">{notification.message}</p>
-                    <span className="text-xs text-gray-500">{notification.time}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Keep existing charts and transactions sections */}
         {/* Charts and Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Deposits Chart */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle className="text-lg">Deposits</CardTitle>
+              <CardTitle className="text-lg">Deposits Overview</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">
