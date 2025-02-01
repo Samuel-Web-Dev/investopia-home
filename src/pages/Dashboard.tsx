@@ -9,6 +9,12 @@ import {
   HeadphonesIcon,
   Activity,
   Globe,
+  Settings,
+  Bell,
+  MessageSquare,
+  HelpCircle,
+  FileText,
+  Users,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -48,6 +54,12 @@ const Dashboard = () => {
     { type: "Investment", amount: "+$2,500", date: "2024-03-13", status: "Completed" },
   ];
 
+  const notifications = [
+    { title: "New Investment Return", message: "Your investment has generated returns", time: "2 hours ago" },
+    { title: "Security Alert", message: "New login detected from your account", time: "5 hours ago" },
+    { title: "Promotion", message: "Special bonus for loyal investors", time: "1 day ago" },
+  ];
+
   const handleWithdraw = () => {
     Swal.fire({
       title: 'Withdrawal Unavailable',
@@ -79,16 +91,24 @@ const Dashboard = () => {
                 <span>Support</span>
               </Link>
             </div>
-            <Button
-              variant="ghost"
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
-              onClick={() => {
-                console.log("Logout clicked");
-              }}
-            >
-              <LogOut className="w-5 h-5 mr-2" />
-              Logout
-            </Button>
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" className="relative">
+                <Bell className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  3
+                </span>
+              </Button>
+              <Button
+                variant="ghost"
+                className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
+                onClick={() => {
+                  console.log("Logout clicked");
+                }}
+              >
+                <LogOut className="w-5 h-5 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
@@ -105,56 +125,109 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* Key Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <Card className="hover:shadow-lg transition-all">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Balance
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Link to="/deposit-plans">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+              <CardContent className="flex items-center justify-between p-6">
+                <div className="flex items-center space-x-4">
+                  <ArrowUpRight className="w-8 h-8 text-green-500" />
+                  <div>
+                    <h3 className="font-semibold">Make Deposit</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Add funds to your account
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+          <div onClick={handleWithdraw}>
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+              <CardContent className="flex items-center justify-between p-6">
+                <div className="flex items-center space-x-4">
+                  <ArrowDownRight className="w-8 h-8 text-red-500" />
+                  <div>
+                    <h3 className="font-semibold">Withdraw Funds</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Request a withdrawal
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Additional Features */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <MessageSquare className="w-5 h-5" />
+                Support Chat
               </CardTitle>
-              <Wallet className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.balance}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Available for withdrawal
-              </p>
+              <Button className="w-full" variant="outline">
+                Start Chat
+              </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-all">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Portfolio Growth
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                Documents
               </CardTitle>
-              <Activity className="w-4 h-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-500">
-                {userData.portfolioGrowth}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Last 30 days
-              </p>
+              <Button className="w-full" variant="outline">
+                View Documents
+              </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-all">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Active Investments
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Settings className="w-5 h-5" />
+                Account Settings
               </CardTitle>
-              <Globe className="w-4 h-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.activeInvestments}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Across different markets
-              </p>
+              <Button className="w-full" variant="outline">
+                Manage Settings
+              </Button>
             </CardContent>
           </Card>
         </div>
 
+        {/* Notifications */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Bell className="w-5 h-5" />
+              Recent Notifications
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {notifications.map((notification, index) => (
+                <div key={index} className="flex items-start space-x-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div className="flex-1">
+                    <h4 className="font-semibold">{notification.title}</h4>
+                    <p className="text-sm text-gray-600">{notification.message}</p>
+                    <span className="text-xs text-gray-500">{notification.time}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Keep existing charts and transactions sections */}
         {/* Charts and Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Deposits Chart */}
@@ -230,40 +303,6 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Link to="/deposit-plans">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardContent className="flex items-center justify-between p-6">
-                <div className="flex items-center space-x-4">
-                  <ArrowUpRight className="w-8 h-8 text-green-500" />
-                  <div>
-                    <h3 className="font-semibold">Make Deposit</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Add funds to your account
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <div onClick={handleWithdraw}>
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardContent className="flex items-center justify-between p-6">
-                <div className="flex items-center space-x-4">
-                  <ArrowDownRight className="w-8 h-8 text-red-500" />
-                  <div>
-                    <h3 className="font-semibold">Withdraw Funds</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Request a withdrawal
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>
