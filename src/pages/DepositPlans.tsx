@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useNavigate } from "react-router-dom";
 import { Check, ArrowRight } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const DepositPlans = () => {
   const navigate = useNavigate();
@@ -45,10 +46,63 @@ const DepositPlans = () => {
     { id: "bybit", name: "Bybit" },
   ];
 
+  const handleAmountChange = (value: string) => {
+    setAmount(value);
+    const numAmount = Number(value);
+    
+    // Find appropriate plan based on amount
+    const appropriatePlan = plans.find(
+      plan => numAmount >= plan.min && 
+      (plan.max === "Unlimited" || numAmount <= Number(plan.max))
+    );
+
+    if (appropriatePlan && appropriatePlan.name !== selectedPlan) {
+      setSelectedPlan(appropriatePlan.name);
+      toast({
+        title: "Plan Updated",
+        description: `Your plan has been automatically updated to ${appropriatePlan.name} based on your deposit amount.`,
+      });
+    }
+  };
+
+  const validateAmount = () => {
+    const numAmount = Number(amount);
+    const selectedPlanDetails = plans.find(plan => plan.name === selectedPlan);
+    
+    if (!selectedPlanDetails) return false;
+
+    if (numAmount < selectedPlanDetails.min) {
+      toast({
+        title: "Invalid Amount",
+        description: `Minimum deposit for ${selectedPlan} is $${selectedPlanDetails.min}`,
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (selectedPlanDetails.max !== "Unlimited" && numAmount > Number(selectedPlanDetails.max)) {
+      toast({
+        title: "Invalid Amount",
+        description: `Maximum deposit for ${selectedPlan} is $${selectedPlanDetails.max}`,
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = () => {
     if (!selectedPlan || !selectedPayment || !amount) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
       return;
     }
+
+    if (!validateAmount()) return;
     
     const selectedPlanDetails = plans.find(plan => plan.name === selectedPlan);
     
@@ -62,11 +116,18 @@ const DepositPlans = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Make a Deposit</h1>
-          <p className="text-gray-600 mt-2">Current Balance: {userBalance}</p>
+    <div className="min-h-screen bg-gray-50 py-20">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="mb-12">
+          <h1 className="text-3xl font-bold text-gray-900 mb-6">Make a Deposit</h1>
+          <Card className="bg-white shadow-md border-accent/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">Current Balance:</span>
+                <span className="text-2xl font-bold text-primary">{userBalance}</span>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="space-y-8">
@@ -150,7 +211,7 @@ const DepositPlans = () => {
                 type="number"
                 placeholder="Enter deposit amount"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => handleAmountChange(e.target.value)}
                 className="max-w-md"
               />
             </CardContent>
