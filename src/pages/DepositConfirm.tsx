@@ -1,15 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { useState } from 'react';
 
 const DepositConfirm = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { plan } = location.state || {};
-  const [amount, setAmount] = useState('');
+  const { plan, paymentMethod, amount } = location.state || {};
+
+  // Random payment address (this would be replaced by admin later)
+  const paymentAddress = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh";
 
   const handleDeposit = () => {
     toast({
@@ -23,7 +23,7 @@ const DepositConfirm = () => {
     navigate('/deposit-plans');
   };
 
-  if (!plan) {
+  if (!plan || !paymentMethod || !amount) {
     navigate('/deposit-plans');
     return null;
   }
@@ -52,25 +52,20 @@ const DepositConfirm = () => {
                 <span className="text-gray-600">Principal Withdraw</span>
                 <span className="font-medium">Available with 0.00% fee</span>
               </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Deposit Amount
-              </label>
-              <Input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder={`Min: $${plan.min} - Max: $${plan.max}`}
-                className="w-full"
-              />
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-gray-600">Amount to Deposit</span>
+                <span className="font-medium">${amount}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-gray-600">Payment Method</span>
+                <span className="font-medium">{paymentMethod}</span>
+              </div>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg mb-6">
               <h3 className="font-medium mb-2">Payment Address</h3>
-              <p className="text-gray-600 break-all">
-                bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+              <p className="text-gray-600 break-all font-mono">
+                {paymentAddress}
               </p>
             </div>
 
