@@ -31,7 +31,7 @@ const Dashboard = () => {
     earnedToday: "$250.00",
     totalInvestors: "1,234",
     activeInvestments: "3",
-    portfolioGrowth: "+15.4%",
+    portfolioGrowth: "Monthly Growth: 15.4%",
   };
 
   const depositData = [
