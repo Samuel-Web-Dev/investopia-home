@@ -16,6 +16,7 @@ import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import DepositPlans from "./pages/DepositPlans";
 import DepositConfirm from "./pages/DepositConfirm";
+import AccountSettings from "./pages/AccountSettings";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/admin/investor/:id" element={<Dashboard />} />
             <Route path="/deposit-plans" element={<DepositPlans />} />
             <Route path="/deposit-confirm" element={<DepositConfirm />} />
+            <Route path="/account-settings" element={<AccountSettings />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

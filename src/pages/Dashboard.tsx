@@ -12,6 +12,7 @@ import {
   LogOut,
   HeadphonesIcon,
   TrendingUp,
+  Settings,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -29,6 +30,7 @@ import WithdrawModal from "@/components/WithdrawModal";
 const Dashboard = () => {
   const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const { id: investorId } = useParams();
+  const isAdmin = true; // Replace with actual admin check logic
   
   const userData = {
     username: "JohnDoe",
@@ -69,11 +71,27 @@ const Dashboard = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <Link
-                to={investorId ? "/admin" : "/dashboard"}
+                to="/dashboard"
                 className="flex items-center space-x-2 text-primary hover:text-primary/80"
               >
                 <Home className="w-5 h-5" />
-                <span>{investorId ? "Back to Admin" : "Home"}</span>
+                <span>Home</span>
+              </Link>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="flex items-center space-x-2 text-primary hover:text-primary/80"
+                >
+                  <Users className="w-5 h-5" />
+                  <span>Admin Panel</span>
+                </Link>
+              )}
+              <Link
+                to="/account-settings"
+                className="flex items-center space-x-2 text-primary hover:text-primary/80"
+              >
+                <Settings className="w-5 h-5" />
+                <span>Settings</span>
               </Link>
               <Link
                 to="/contact"
