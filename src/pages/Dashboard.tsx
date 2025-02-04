@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -23,8 +24,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import WithdrawModal from "@/components/WithdrawModal";
 
 const Dashboard = () => {
+  const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
+  
   const userData = {
     username: "JohnDoe",
     balance: "$5,000.00",
@@ -59,7 +63,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Dashboard Navigation */}
       <nav className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
@@ -93,9 +96,7 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        {/* Welcome Message */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
             Welcome back, {userData.username}! 👋
@@ -105,7 +106,6 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* Account Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -168,8 +168,43 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-lg">Earnings Overview</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={earningsData}>
+                    <XAxis 
+                      dataKey="name" 
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis 
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(value) => `$${value}`}
+                    />
+                    <Tooltip />
+                    <Area
+                      type="monotone"
+                      dataKey="amount"
+                      stroke="#8884d8"
+                      fill="#8884d8"
+                      fillOpacity={0.2}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">Recent Transactions</CardTitle>
@@ -210,45 +245,8 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
-
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="text-lg">Earnings Overview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={earningsData}>
-                    <XAxis 
-                      dataKey="name" 
-                      stroke="#888888"
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <YAxis 
-                      stroke="#888888"
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
-                      tickFormatter={(value) => `$${value}`}
-                    />
-                    <Tooltip />
-                    <Area
-                      type="monotone"
-                      dataKey="amount"
-                      stroke="#8884d8"
-                      fill="#8884d8"
-                      fillOpacity={0.2}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
-        {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Link to="/deposit-plans">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
@@ -265,7 +263,10 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </Link>
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card 
+            className="hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => setWithdrawModalOpen(true)}
+          >
             <CardContent className="flex items-center justify-between p-6">
               <div className="flex items-center space-x-4">
                 <ArrowDownRight className="w-8 h-8 text-red-500" />
@@ -295,7 +296,6 @@ const Dashboard = () => {
           </Link>
         </div>
 
-        {/* Account Settings */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Link to="/profile">
             <Card className="hover:shadow-md transition-shadow cursor-pointer">
@@ -331,6 +331,11 @@ const Dashboard = () => {
           </Link>
         </div>
       </div>
+
+      <WithdrawModal 
+        open={withdrawModalOpen}
+        onOpenChange={setWithdrawModalOpen}
+      />
     </div>
   );
 };
