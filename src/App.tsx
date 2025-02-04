@@ -13,6 +13,7 @@ import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import HowToInvest from "./pages/HowToInvest";
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import DepositPlans from "./pages/DepositPlans";
 import DepositConfirm from "./pages/DepositConfirm";
 
@@ -35,6 +36,8 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/how-to-invest" element={<HowToInvest />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/investor/:id" element={<Dashboard />} />
             <Route path="/deposit-plans" element={<DepositPlans />} />
             <Route path="/deposit-confirm" element={<DepositConfirm />} />
           </Routes>

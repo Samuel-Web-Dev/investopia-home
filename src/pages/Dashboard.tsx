@@ -13,7 +13,7 @@ import {
   HeadphonesIcon,
   TrendingUp,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Area,
   AreaChart,
@@ -28,6 +28,7 @@ import WithdrawModal from "@/components/WithdrawModal";
 
 const Dashboard = () => {
   const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
+  const { id: investorId } = useParams();
   
   const userData = {
     username: "JohnDoe",
@@ -68,11 +69,11 @@ const Dashboard = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <Link
-                to="/dashboard"
+                to={investorId ? "/admin" : "/dashboard"}
                 className="flex items-center space-x-2 text-primary hover:text-primary/80"
               >
                 <Home className="w-5 h-5" />
-                <span>Home</span>
+                <span>{investorId ? "Back to Admin" : "Home"}</span>
               </Link>
               <Link
                 to="/contact"
@@ -99,7 +100,7 @@ const Dashboard = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Welcome back, {userData.username}! 👋
+            {investorId ? `Managing ${userData.username}'s Account` : `Welcome back, ${userData.username}! 👋`}
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
             Here's what's happening with your investments today.
@@ -140,14 +141,14 @@ const Dashboard = () => {
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Investors
+                Registration Date
               </CardTitle>
-              <Users className="w-4 h-4 text-primary" />
+              <History className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.totalInvestors}</div>
+              <div className="text-2xl font-bold">{userData.registrationDate}</div>
               <p className="text-xs text-muted-foreground mt-1">
-                Growing community
+                Member since
               </p>
             </CardContent>
           </Card>
@@ -155,21 +156,18 @@ const Dashboard = () => {
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Member Since
+                Last Access
               </CardTitle>
               <History className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.registrationDate}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Last access: {userData.lastAccess}
-              </p>
+              <div className="text-lg font-bold">{userData.lastAccess}</div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <Card className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <Card>
             <CardHeader>
               <CardTitle className="text-lg">Earnings Overview</CardTitle>
             </CardHeader>
@@ -247,7 +245,7 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
           <Link to="/deposit-plans">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="flex items-center justify-between p-6">
@@ -279,56 +277,6 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
-          <Link to="/referral">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardContent className="flex items-center justify-between p-6">
-                <div className="flex items-center space-x-4">
-                  <Users className="w-8 h-8 text-blue-500" />
-                  <div>
-                    <h3 className="font-semibold">Referral Program</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Invite friends & earn
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Link to="/profile">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <UserCog className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Profile Settings</h3>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/security">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <History className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Security</h3>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/notifications">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <History className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Notifications</h3>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/payment-methods">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardContent className="p-4">
-                <Wallet className="w-6 h-6 text-primary mb-2" />
-                <h3 className="font-medium">Payment Methods</h3>
-              </CardContent>
-            </Card>
-          </Link>
         </div>
       </div>
 
