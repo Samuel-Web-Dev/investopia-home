@@ -5,15 +5,17 @@ import {
   Wallet,
   ArrowUpRight,
   ArrowDownRight,
+  History,
+  Users,
+  UserCog,
   LogOut,
   HeadphonesIcon,
-  Settings,
-  Bell,
-  MessageSquare,
-  FileText,
+  TrendingUp,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   ResponsiveContainer,
@@ -21,18 +23,29 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import Swal from 'sweetalert2';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   const userData = {
     username: "JohnDoe",
     balance: "$5,000.00",
     earnedToday: "$250.00",
+    registrationDate: "2024-01-15",
+    lastAccess: "2024-03-19 14:30",
     totalInvestors: "1,234",
     activeInvestments: "3",
-    portfolioGrowth: "Monthly Growth: 15.4%",
+    recentDeposit: { amount: "$1,000", date: "2024-03-18" },
+    recentWithdrawal: { amount: "$500", date: "2024-03-17" },
+    recentInvestment: { amount: "$2,500", date: "2024-03-16" },
   };
+
+  const earningsData = [
+    { name: "Jan", amount: 2400 },
+    { name: "Feb", amount: 1398 },
+    { name: "Mar", amount: 9800 },
+    { name: "Apr", amount: 3908 },
+    { name: "May", amount: 4800 },
+    { name: "Jun", amount: 3800 },
+  ];
 
   const depositData = [
     { name: "Mon", value: 1200 },
@@ -43,21 +56,6 @@ const Dashboard = () => {
     { name: "Sat", value: 1200 },
     { name: "Sun", value: 800 },
   ];
-
-  const recentTransactions = [
-    { type: "Deposit", amount: "+$1,000", date: "2024-03-15", status: "Completed" },
-    { type: "Withdrawal", amount: "-$500", date: "2024-03-14", status: "Pending" },
-    { type: "Investment", amount: "+$2,500", date: "2024-03-13", status: "Completed" },
-  ];
-
-  const handleWithdraw = () => {
-    Swal.fire({
-      title: 'Withdrawal Unavailable',
-      text: 'Withdrawals cannot be made at this time.',
-      icon: 'info',
-      confirmButtonColor: '#8B5CF6',
-    });
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -81,24 +79,16 @@ const Dashboard = () => {
                 <span>Support</span>
               </Link>
             </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  3
-                </span>
-              </Button>
-              <Button
-                variant="ghost"
-                className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
-                onClick={() => {
-                  console.log("Logout clicked");
-                }}
-              >
-                <LogOut className="w-5 h-5 mr-2" />
-                Logout
-              </Button>
-            </div>
+            <Button
+              variant="ghost"
+              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
+              onClick={() => {
+                console.log("Logout clicked");
+              }}
+            >
+              <LogOut className="w-5 h-5 mr-2" />
+              Logout
+            </Button>
           </div>
         </div>
       </nav>
@@ -116,49 +106,150 @@ const Dashboard = () => {
         </div>
 
         {/* Account Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Wallet className="w-5 h-5" />
-                Current Balance
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card className="hover:shadow-lg transition-all">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Total Balance
               </CardTitle>
+              <Wallet className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{userData.balance}</div>
-              <p className="text-sm text-muted-foreground">
-                {userData.portfolioGrowth} this month
+              <div className="text-2xl font-bold">{userData.balance}</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Available for withdrawal
               </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Active Investments</CardTitle>
+          <Card className="hover:shadow-lg transition-all">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Active Investments
+              </CardTitle>
+              <TrendingUp className="w-4 h-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{userData.activeInvestments}</div>
-              <p className="text-sm text-muted-foreground">
-                Earned {userData.earnedToday} today
+              <div className="text-2xl font-bold">{userData.activeInvestments}</div>
+              <p className="text-xs text-green-500 mt-1">
+                Total value: {userData.balance}
               </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Total Investors</CardTitle>
+          <Card className="hover:shadow-lg transition-all">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Total Investors
+              </CardTitle>
+              <Users className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{userData.totalInvestors}</div>
-              <p className="text-sm text-muted-foreground">
+              <div className="text-2xl font-bold">{userData.totalInvestors}</div>
+              <p className="text-xs text-muted-foreground mt-1">
                 Growing community
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-all">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Member Since
+              </CardTitle>
+              <History className="w-4 h-4 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{userData.registrationDate}</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Last access: {userData.lastAccess}
               </p>
             </CardContent>
           </Card>
         </div>
 
+        {/* Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Recent Transactions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div>
+                  <p className="font-medium">Recent Deposit</p>
+                  <p className="text-sm text-gray-500">{userData.recentDeposit.date}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-green-500">
+                    +{userData.recentDeposit.amount}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div>
+                  <p className="font-medium">Recent Withdrawal</p>
+                  <p className="text-sm text-gray-500">{userData.recentWithdrawal.date}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-red-500">
+                    -{userData.recentWithdrawal.amount}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div>
+                  <p className="font-medium">Recent Investment</p>
+                  <p className="text-sm text-gray-500">{userData.recentInvestment.date}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-blue-500">
+                    {userData.recentInvestment.amount}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-lg">Earnings Overview</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={earningsData}>
+                    <XAxis 
+                      dataKey="name" 
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis 
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(value) => `$${value}`}
+                    />
+                    <Tooltip />
+                    <Area
+                      type="monotone"
+                      dataKey="amount"
+                      stroke="#8884d8"
+                      fill="#8884d8"
+                      fillOpacity={0.2}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Link to="/deposit-plans">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="flex items-center justify-between p-6">
@@ -174,143 +265,70 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </Link>
-          <div onClick={handleWithdraw}>
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardContent className="flex items-center justify-between p-6">
+              <div className="flex items-center space-x-4">
+                <ArrowDownRight className="w-8 h-8 text-red-500" />
+                <div>
+                  <h3 className="font-semibold">Withdraw Funds</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Request a withdrawal
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Link to="/referral">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="flex items-center justify-between p-6">
                 <div className="flex items-center space-x-4">
-                  <ArrowDownRight className="w-8 h-8 text-red-500" />
+                  <Users className="w-8 h-8 text-blue-500" />
                   <div>
-                    <h3 className="font-semibold">Withdraw Funds</h3>
+                    <h3 className="font-semibold">Referral Program</h3>
                     <p className="text-sm text-muted-foreground">
-                      Request a withdrawal
+                      Invite friends & earn
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </Link>
         </div>
 
-        {/* Account Settings and Support */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Settings className="w-5 h-5" />
-                Account Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" variant="outline">
-                Manage Settings
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <MessageSquare className="w-5 h-5" />
-                Support Chat
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" variant="outline">
-                Start Chat
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Documents
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" variant="outline">
-                View Documents
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Charts and Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Deposits Chart */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="text-lg">Deposits Overview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={depositData}>
-                    <XAxis 
-                      dataKey="name" 
-                      stroke="#888888"
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <YAxis 
-                      stroke="#888888"
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
-                      tickFormatter={() => ``}
-                    />
-                    <Tooltip 
-                      cursor={false}
-                      contentStyle={{
-                        background: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "0.5rem",
-                      }}
-                    />
-                    <Bar 
-                      dataKey="value" 
-                      fill="hsl(var(--primary))"
-                      radius={[4, 4, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Recent Transactions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Recent Transactions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentTransactions.map((transaction, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
-                  >
-                    <div>
-                      <p className="font-medium">{transaction.type}</p>
-                      <p className="text-sm text-gray-500">{transaction.date}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className={`font-bold ${
-                        transaction.amount.startsWith('+') 
-                          ? 'text-green-500' 
-                          : 'text-red-500'
-                      }`}>
-                        {transaction.amount}
-                      </p>
-                      <p className="text-sm text-gray-500">{transaction.status}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+        {/* Account Settings */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <Link to="/profile">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <CardContent className="p-4">
+                <UserCog className="w-6 h-6 text-primary mb-2" />
+                <h3 className="font-medium">Profile Settings</h3>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link to="/security">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <CardContent className="p-4">
+                <History className="w-6 h-6 text-primary mb-2" />
+                <h3 className="font-medium">Security</h3>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link to="/notifications">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <CardContent className="p-4">
+                <History className="w-6 h-6 text-primary mb-2" />
+                <h3 className="font-medium">Notifications</h3>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link to="/payment-methods">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <CardContent className="p-4">
+                <Wallet className="w-6 h-6 text-primary mb-2" />
+                <h3 className="font-medium">Payment Methods</h3>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </div>
     </div>
