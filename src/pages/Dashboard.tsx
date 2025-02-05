@@ -12,20 +12,18 @@ import {
   LogOut,
   HeadphonesIcon,
   TrendingUp,
-  Settings,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import {
   Area,
   AreaChart,
-  Bar,
-  BarChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import WithdrawModal from "@/components/WithdrawModal";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Dashboard = () => {
   const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
@@ -37,7 +35,6 @@ const Dashboard = () => {
     balance: "$5,000.00",
     earnedToday: "$250.00",
     registrationDate: "2024-01-15",
-    lastAccess: "2024-03-19 14:30",
     totalInvestors: "1,234",
     activeInvestments: "3",
     recentDeposit: { amount: "$1,000", date: "2024-03-18" },
@@ -52,16 +49,6 @@ const Dashboard = () => {
     { name: "Apr", amount: 3908 },
     { name: "May", amount: 4800 },
     { name: "Jun", amount: 3800 },
-  ];
-
-  const depositData = [
-    { name: "Mon", value: 1200 },
-    { name: "Tue", value: 900 },
-    { name: "Wed", value: 1600 },
-    { name: "Thu", value: 1700 },
-    { name: "Fri", value: 1400 },
-    { name: "Sat", value: 1200 },
-    { name: "Sun", value: 800 },
   ];
 
   return (
@@ -125,7 +112,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -168,18 +155,6 @@ const Dashboard = () => {
               <p className="text-xs text-muted-foreground mt-1">
                 Member since
               </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-all">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Last Access
-              </CardTitle>
-              <History className="w-4 h-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-lg font-bold">{userData.lastAccess}</div>
             </CardContent>
           </Card>
         </div>
