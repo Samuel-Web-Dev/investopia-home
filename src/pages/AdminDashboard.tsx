@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Home,
   Users,
@@ -10,7 +11,6 @@ import {
   Edit,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Input } from "@/components/ui/input";
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,7 +35,6 @@ const AdminDashboard = () => {
       lastAccess: "2024-03-19 15:45",
       status: "active",
     },
-    // Add more mock investors as needed
   ];
 
   const filteredInvestors = investors.filter(investor => 

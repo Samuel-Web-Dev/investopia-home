@@ -90,7 +90,7 @@ const Dashboard = () => {
                 to="/account-settings"
                 className="flex items-center space-x-2 text-primary hover:text-primary/80"
               >
-                <Settings className="w-5 h-5" />
+                <UserCog className="w-5 h-5" />
                 <span>Settings</span>
               </Link>
               <Link

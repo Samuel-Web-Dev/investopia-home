@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Info, HelpCircle, Menu, Phone, Coins, Globe } from "lucide-react";
+import { LogIn, UserPlus, Info, HelpCircle, Menu, Phone, Coins, Globe, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useEffect, useState, useCallback, useMemo } from "react";
@@ -40,6 +40,7 @@ export const Navigation = () => {
     { to: "/contact", icon: <Phone className="w-4 h-4" />, label: t('nav.contact') },
     { to: "/how-to-invest", icon: <Coins className="w-4 h-4" />, label: t('nav.howToInvest') },
     { to: "/dashboard", icon: <Menu className="w-4 h-4" />, label: t('nav.dashboard') },
+    { to: "/admin", icon: <Users className="w-4 h-4" />, label: t('nav.admin') },
   ], [t]);
 
   // Memoize language change handler
