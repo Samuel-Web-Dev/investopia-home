@@ -19,6 +19,7 @@ const translations = {
     'nav.signup': 'Sign Up',
     'nav.dashboard': 'Dashboard',
     'nav.admin': 'Admin Panel',
+    'nav.settings': 'Account Settings',
     'dashboard.totalBalance': 'Total Balance',
     'dashboard.activeInvestments': 'Active Investments',
     'dashboard.totalValue': 'Total value',
@@ -26,6 +27,12 @@ const translations = {
     'dashboard.recentDeposit': 'Recent Deposit',
     'dashboard.recentWithdrawal': 'Recent Withdrawal',
     'dashboard.recentInvestment': 'Recent Investment',
+    'settings.title': 'Account Settings',
+    'settings.name': 'Full Name',
+    'settings.email': 'Email',
+    'settings.password': 'Password',
+    'settings.save': 'Save Changes',
+    'settings.success': 'Settings updated successfully',
   },
   es: {
     'nav.home': 'Inicio',
@@ -37,6 +44,7 @@ const translations = {
     'nav.signup': 'Registrarse',
     'nav.dashboard': 'Panel de Control',
     'nav.admin': 'Panel de Administración',
+    'nav.settings': 'Configuración de Cuenta',
     'dashboard.totalBalance': 'Balance Total',
     'dashboard.activeInvestments': 'Inversiones Activas',
     'dashboard.totalValue': 'Valor total',
@@ -44,11 +52,17 @@ const translations = {
     'dashboard.recentDeposit': 'Depósito Reciente',
     'dashboard.recentWithdrawal': 'Retiro Reciente',
     'dashboard.recentInvestment': 'Inversión Reciente',
+    'settings.title': 'Configuración de Cuenta',
+    'settings.name': 'Nombre Completo',
+    'settings.email': 'Correo Electrónico',
+    'settings.password': 'Contraseña',
+    'settings.save': 'Guardar Cambios',
+    'settings.success': 'Configuración actualizada con éxito',
   },
   // Add more languages as needed
 };
 
-const languageNames = {
+export const languageNames = {
   en: '🇺🇸 English',
   es: '🇪🇸 Español',
   fr: '🇫🇷 Français',
@@ -93,7 +107,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [language, setLanguage] = useState<Language>('en');
 
-  const t = (key: string) => {
+  const t = (key: string): string => {
     return translations[language as keyof typeof translations]?.[key as keyof typeof translations['en']] || key;
   };
 

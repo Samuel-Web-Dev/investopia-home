@@ -28,6 +28,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const Dashboard = () => {
   const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const { id: investorId } = useParams();
+  const { t } = useLanguage();
   const isAdmin = true; // Replace with actual admin check logic
   
   const userData = {
@@ -56,41 +57,41 @@ const Dashboard = () => {
       <nav className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 overflow-x-auto pb-2 md:pb-0">
               <Link
                 to="/dashboard"
-                className="flex items-center space-x-2 text-primary hover:text-primary/80"
+                className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
               >
                 <Home className="w-5 h-5" />
-                <span>Home</span>
+                <span>{t('nav.home')}</span>
               </Link>
               {isAdmin && (
                 <Link
                   to="/admin"
-                  className="flex items-center space-x-2 text-primary hover:text-primary/80"
+                  className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
                 >
                   <Users className="w-5 h-5" />
-                  <span>Admin Panel</span>
+                  <span>{t('nav.admin')}</span>
                 </Link>
               )}
               <Link
                 to="/account-settings"
-                className="flex items-center space-x-2 text-primary hover:text-primary/80"
+                className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
               >
                 <UserCog className="w-5 h-5" />
-                <span>Settings</span>
+                <span>{t('nav.settings')}</span>
               </Link>
               <Link
                 to="/contact"
-                className="flex items-center space-x-2 text-primary hover:text-primary/80"
+                className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
               >
                 <HeadphonesIcon className="w-5 h-5" />
-                <span>Support</span>
+                <span>{t('nav.contact')}</span>
               </Link>
             </div>
             <Button
               variant="ghost"
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10"
+              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10 whitespace-nowrap"
               onClick={() => {
                 console.log("Logout clicked");
               }}

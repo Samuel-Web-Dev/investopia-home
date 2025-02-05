@@ -7,25 +7,13 @@ import { Home, Users, LogOut, HeadphonesIcon, Search, Edit, Save, X } from "luci
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-interface Investor {
-  id: number;
-  username: string;
-  email: string;
-  balance: string;
-  registrationDate: string;
-  activeInvestments: string;
-  totalValue: string;
-  recentDeposit: { amount: string; date: string };
-  recentWithdrawal: { amount: string; date: string };
-  recentInvestment: { amount: string; date: string };
-}
-
 const AdminDashboard = () => {
   const { toast } = useToast();
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [investors, setInvestors] = useState<Investor[]>([
+  const [editingInvestor, setEditingInvestor] = useState<any>(null);
+  const [investors, setInvestors] = useState([
     {
       id: 1,
       username: "JohnDoe",
@@ -37,6 +25,14 @@ const AdminDashboard = () => {
       recentDeposit: { amount: "$1,000", date: "2024-03-18" },
       recentWithdrawal: { amount: "$500", date: "2024-03-17" },
       recentInvestment: { amount: "$2,500", date: "2024-03-16" },
+      earningsData: [
+        { name: "Jan", amount: 2400 },
+        { name: "Feb", amount: 1398 },
+        { name: "Mar", amount: 9800 },
+        { name: "Apr", amount: 3908 },
+        { name: "May", amount: 4800 },
+        { name: "Jun", amount: 3800 },
+      ]
     },
     {
       id: 2,
@@ -52,9 +48,7 @@ const AdminDashboard = () => {
     },
   ]);
 
-  const [editingInvestor, setEditingInvestor] = useState<Investor | null>(null);
-
-  const handleEdit = (investor: Investor) => {
+  const handleEdit = (investor: any) => {
     setEditingId(investor.id);
     setEditingInvestor({ ...investor });
   };
@@ -75,7 +69,7 @@ const AdminDashboard = () => {
     setEditingInvestor(null);
   };
 
-  const handleChange = (field: keyof Investor | 'recentDeposit.amount' | 'recentWithdrawal.amount' | 'recentInvestment.amount', value: string) => {
+  const handleChange = (field: string, value: any) => {
     if (!editingInvestor) return;
     
     if (field.includes('.')) {
@@ -83,9 +77,14 @@ const AdminDashboard = () => {
       setEditingInvestor({
         ...editingInvestor,
         [parent]: {
-          ...editingInvestor[parent as keyof Investor],
+          ...editingInvestor[parent],
           [child]: value,
         },
+      });
+    } else if (field === 'earningsData') {
+      setEditingInvestor({
+        ...editingInvestor,
+        earningsData: value,
       });
     } else {
       setEditingInvestor({ ...editingInvestor, [field]: value });
@@ -155,8 +154,8 @@ const AdminDashboard = () => {
             .map((investor) => (
               <Card key={investor.id} className="hover:shadow-lg transition-all">
                 <CardContent className="p-6">
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-4 flex-1">
+                  <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                    <div className="space-y-4 flex-1 w-full">
                       <div className="flex items-center space-x-4">
                         <Users className="w-8 h-8 text-primary" />
                         <div>
@@ -182,13 +181,11 @@ const AdminDashboard = () => {
                               onChange={(e) => handleChange('activeInvestments', e.target.value)}
                               className="mt-1"
                             />
-                          </div>
-                          <div>
-                            <label className="text-sm font-medium">{t('dashboard.totalValue')}</label>
                             <Input
                               value={editingInvestor?.totalValue}
                               onChange={(e) => handleChange('totalValue', e.target.value)}
                               className="mt-1"
+                              placeholder="Total Value"
                             />
                           </div>
                           <div>
@@ -214,6 +211,34 @@ const AdminDashboard = () => {
                               onChange={(e) => handleChange('recentInvestment.amount', e.target.value)}
                               className="mt-1"
                             />
+                          </div>
+                          <div className="col-span-2">
+                            <label className="text-sm font-medium">{t('dashboard.earningsOverview')}</label>
+                            <div className="grid grid-cols-2 gap-2">
+                              {editingInvestor?.earningsData.map((data: any, index: number) => (
+                                <div key={index} className="flex gap-2">
+                                  <Input
+                                    value={data.name}
+                                    onChange={(e) => {
+                                      const newData = [...editingInvestor.earningsData];
+                                      newData[index] = { ...data, name: e.target.value };
+                                      handleChange('earningsData', newData);
+                                    }}
+                                    placeholder="Month"
+                                  />
+                                  <Input
+                                    type="number"
+                                    value={data.amount}
+                                    onChange={(e) => {
+                                      const newData = [...editingInvestor.earningsData];
+                                      newData[index] = { ...data, amount: parseInt(e.target.value) };
+                                      handleChange('earningsData', newData);
+                                    }}
+                                    placeholder="Amount"
+                                  />
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       ) : (
