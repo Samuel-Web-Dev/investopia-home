@@ -5,22 +5,35 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { UserCog } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 const AccountSettings = () => {
   const { toast } = useToast();
-  const { t } = useLanguage();
-  const [userData, setUserData] = useState({
+  const [formData, setFormData] = useState({
     name: "John Doe",
     email: "john@example.com",
-    password: "********",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (formData.newPassword !== formData.confirmPassword) {
+      toast({
+        title: "Error",
+        description: "New passwords do not match",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Here you would typically make an API call to update the user's information
+    console.log("Updating user information:", formData);
+    
     toast({
-      title: t('settings.success'),
-      description: t('settings.success'),
+      title: "Success",
+      description: "Your account settings have been updated",
     });
   };
 
@@ -31,49 +44,73 @@ const AccountSettings = () => {
           <CardHeader className="space-y-1">
             <div className="flex items-center space-x-2">
               <UserCog className="w-6 h-6 text-primary" />
-              <CardTitle className="text-2xl">{t('settings.title')}</CardTitle>
+              <CardTitle className="text-2xl">Account Settings</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="name">{t('settings.name')}</Label>
+                <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
                   type="text"
-                  value={userData.name}
+                  value={formData.name}
                   onChange={(e) =>
-                    setUserData({ ...userData, name: e.target.value })
+                    setFormData({ ...formData, name: e.target.value })
                   }
                   className="w-full"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">{t('settings.email')}</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
-                  value={userData.email}
+                  value={formData.email}
                   onChange={(e) =>
-                    setUserData({ ...userData, email: e.target.value })
+                    setFormData({ ...formData, email: e.target.value })
                   }
                   className="w-full"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">{t('settings.password')}</Label>
+                <Label htmlFor="currentPassword">Current Password</Label>
                 <Input
-                  id="password"
+                  id="currentPassword"
                   type="password"
-                  value={userData.password}
+                  value={formData.currentPassword}
                   onChange={(e) =>
-                    setUserData({ ...userData, password: e.target.value })
+                    setFormData({ ...formData, currentPassword: e.target.value })
+                  }
+                  className="w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="newPassword">New Password</Label>
+                <Input
+                  id="newPassword"
+                  type="password"
+                  value={formData.newPassword}
+                  onChange={(e) =>
+                    setFormData({ ...formData, newPassword: e.target.value })
+                  }
+                  className="w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={(e) =>
+                    setFormData({ ...formData, confirmPassword: e.target.value })
                   }
                   className="w-full"
                 />
               </div>
               <Button type="submit" className="w-full">
-                {t('settings.save')}
+                Save Changes
               </Button>
             </form>
           </CardContent>

@@ -12,6 +12,7 @@ import {
   LogOut,
   HeadphonesIcon,
   TrendingUp,
+  Settings,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -78,7 +79,7 @@ const Dashboard = () => {
                 to="/account-settings"
                 className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
               >
-                <UserCog className="w-5 h-5" />
+                <Settings className="w-5 h-5" />
                 <span>{t('nav.settings')}</span>
               </Link>
               <Link
