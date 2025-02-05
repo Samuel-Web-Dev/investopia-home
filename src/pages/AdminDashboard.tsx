@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Home,
   Users,
@@ -9,14 +10,26 @@ import {
   HeadphonesIcon,
   Search,
   Edit,
+  Save,
+  X,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+interface Investor {
+  id: number;
+  username: string;
+  email: string;
+  balance: string;
+  registrationDate: string;
+  lastAccess: string;
+  status: string;
+}
+
 const AdminDashboard = () => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
-  
-  // Mock data - replace with actual data from your backend
-  const investors = [
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [investors, setInvestors] = useState<Investor[]>([
     {
       id: 1,
       username: "JohnDoe",
@@ -35,7 +48,39 @@ const AdminDashboard = () => {
       lastAccess: "2024-03-19 15:45",
       status: "active",
     },
-  ];
+  ]);
+
+  const [editingInvestor, setEditingInvestor] = useState<Investor | null>(null);
+
+  const handleEdit = (investor: Investor) => {
+    setEditingId(investor.id);
+    setEditingInvestor({ ...investor });
+  };
+
+  const handleSave = (id: number) => {
+    if (!editingInvestor) return;
+
+    setInvestors(investors.map(inv => 
+      inv.id === id ? editingInvestor : inv
+    ));
+    setEditingId(null);
+    setEditingInvestor(null);
+    
+    toast({
+      title: "Success",
+      description: "Investor information updated successfully",
+    });
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
+    setEditingInvestor(null);
+  };
+
+  const handleChange = (field: keyof Investor, value: string) => {
+    if (!editingInvestor) return;
+    setEditingInvestor({ ...editingInvestor, [field]: value });
+  };
 
   const filteredInvestors = investors.filter(investor => 
     investor.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -110,21 +155,77 @@ const AdminDashboard = () => {
               <CardContent className="flex items-center justify-between p-6">
                 <div className="flex items-center space-x-4">
                   <Users className="w-8 h-8 text-primary" />
-                  <div>
-                    <h3 className="font-semibold">{investor.username}</h3>
-                    <p className="text-sm text-muted-foreground">{investor.email}</p>
+                  <div className="grid gap-1">
+                    {editingId === investor.id ? (
+                      <>
+                        <Input
+                          value={editingInvestor?.username}
+                          onChange={(e) => handleChange('username', e.target.value)}
+                          className="w-48"
+                        />
+                        <Input
+                          value={editingInvestor?.email}
+                          onChange={(e) => handleChange('email', e.target.value)}
+                          className="w-48"
+                        />
+                        <Input
+                          value={editingInvestor?.balance}
+                          onChange={(e) => handleChange('balance', e.target.value)}
+                          className="w-48"
+                        />
+                        <Input
+                          value={editingInvestor?.status}
+                          onChange={(e) => handleChange('status', e.target.value)}
+                          className="w-48"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <h3 className="font-semibold">{investor.username}</h3>
+                        <p className="text-sm text-muted-foreground">{investor.email}</p>
+                        <p className="text-sm text-muted-foreground">Balance: {investor.balance}</p>
+                        <p className="text-sm text-muted-foreground">Status: {investor.status}</p>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="text-right">
-                    <p className="font-semibold">{investor.balance}</p>
-                    <p className="text-sm text-muted-foreground">Balance</p>
+                    <p className="text-sm text-muted-foreground">
+                      Registered: {investor.registrationDate}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Last Access: {investor.lastAccess}
+                    </p>
                   </div>
-                  <Link to={`/admin/investor/${investor.id}`}>
-                    <Button variant="outline" size="icon">
+                  {editingId === investor.id ? (
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => handleSave(investor.id)}
+                        className="text-green-600"
+                      >
+                        <Save className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={handleCancel}
+                        className="text-red-600"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleEdit(investor)}
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
-                  </Link>
+                  )}
                 </div>
               </CardContent>
             </Card>

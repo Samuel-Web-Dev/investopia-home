@@ -14,7 +14,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { languageNames } from "@/contexts/LanguageContext";
 import type { Language } from "@/contexts/LanguageContext";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -33,7 +35,6 @@ export const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Memoize navigation items
   const navItems = useMemo(() => [
     { to: "/about", icon: <Info className="w-4 h-4" />, label: t('nav.about') },
     { to: "/faq", icon: <HelpCircle className="w-4 h-4" />, label: t('nav.faq') },
@@ -43,20 +44,13 @@ export const Navigation = () => {
     { to: "/admin", icon: <Users className="w-4 h-4" />, label: t('nav.admin') },
   ], [t]);
 
-  // Memoize language change handler
-  const handleLanguageChange = useCallback((newLang: Language) => {
-    setLanguage(newLang);
-  }, [setLanguage]);
-
   return (
-    <nav 
-      className={`
-        fixed w-full top-0 left-0 right-0 z-50
-        bg-primary-dark/95 text-white py-4 px-6
-        transition-all duration-300 ease-in-out will-change-transform
-        ${scrolled ? 'shadow-lg backdrop-blur-sm' : ''}
-      `}
-    >
+    <nav className={`
+      fixed w-full top-0 left-0 right-0 z-50
+      bg-primary-dark/95 text-white py-4 px-6
+      transition-all duration-300 ease-in-out will-change-transform
+      ${scrolled ? 'shadow-lg backdrop-blur-sm' : ''}
+    `}>
       <div className="container mx-auto flex justify-between items-center">
         <Link 
           to="/" 
@@ -88,16 +82,19 @@ export const Navigation = () => {
                 <Globe className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setLanguage('en')}>
-                🇺🇸 English {language === 'en' && '✓'}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('es')}>
-                🇪🇸 Español {language === 'es' && '✓'}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('fr')}>
-                🇫🇷 Français {language === 'fr' && '✓'}
-              </DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-56">
+              <ScrollArea className="h-[400px]">
+                {Object.entries(languageNames).map(([code, name]) => (
+                  <DropdownMenuItem
+                    key={code}
+                    onClick={() => setLanguage(code)}
+                    className="flex items-center gap-2"
+                  >
+                    <span>{name}</span>
+                    {language === code && '✓'}
+                  </DropdownMenuItem>
+                ))}
+              </ScrollArea>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -147,15 +144,21 @@ export const Navigation = () => {
                 {/* Mobile Language Selector */}
                 <div className="p-2">
                   <div className="flex flex-col gap-2">
-                    <button onClick={() => setLanguage('en')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
-                      🇺🇸 English {language === 'en' && '✓'}
-                    </button>
-                    <button onClick={() => setLanguage('es')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
-                      🇪🇸 Español {language === 'es' && '✓'}
-                    </button>
-                    <button onClick={() => setLanguage('fr')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
-                      🇫🇷 Français {language === 'fr' && '✓'}
-                    </button>
+                    <ScrollArea className="h-[200px]">
+                      {Object.entries(languageNames).map(([code, name]) => (
+                        <button
+                          key={code}
+                          onClick={() => {
+                            setLanguage(code);
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg w-full text-left"
+                        >
+                          <span>{name}</span>
+                          {language === code && '✓'}
+                        </button>
+                      ))}
+                    </ScrollArea>
                   </div>
                 </div>
 
