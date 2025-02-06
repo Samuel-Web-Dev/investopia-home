@@ -1,3 +1,4 @@
+
 import {
   Dialog,
   DialogContent,
@@ -29,10 +30,11 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
       return;
     }
 
-    // Add withdrawal logic here
+    // Show low balance message
     toast({
-      title: "Withdrawal Requested",
-      description: `Your withdrawal request for $${amount} has been submitted.`,
+      title: "Withdrawal Failed",
+      description: "Withdrawal cannot be made now due to low balance",
+      variant: "destructive",
     });
     onOpenChange(false);
   };
