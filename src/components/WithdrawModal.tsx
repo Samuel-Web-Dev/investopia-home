@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
 import { toast } from "@/hooks/use-toast";
 
 interface WithdrawModalProps {
@@ -16,11 +16,11 @@ interface WithdrawModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
+const WithdrawModal = memo(({ open, onOpenChange }: WithdrawModalProps) => {
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
 
-  const handleWithdraw = () => {
+  const handleWithdraw = useCallback(() => {
     if (!amount || !address) {
       toast({
         title: "Error",
@@ -30,18 +30,21 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
       return;
     }
 
-    // Show low balance message
     toast({
       title: "Withdrawal Failed",
       description: "Withdrawal cannot be made now due to low balance",
       variant: "destructive",
     });
     onOpenChange(false);
-  };
+  }, [amount, address, onOpenChange]);
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
+    setter(e.target.value);
+  }, []);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Withdraw Funds</DialogTitle>
           <DialogDescription>
@@ -55,7 +58,7 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
               type="number"
               placeholder="Enter amount"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => handleInputChange(e, setAmount)}
             />
           </div>
           <div className="space-y-2">
@@ -63,7 +66,7 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
             <Input
               placeholder="Enter your wallet address"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => handleInputChange(e, setAddress)}
             />
           </div>
         </div>
@@ -76,6 +79,8 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
       </DialogContent>
     </Dialog>
   );
-};
+});
+
+WithdrawModal.displayName = "WithdrawModal";
 
 export default WithdrawModal;
