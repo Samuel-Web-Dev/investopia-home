@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
 
-export type Language = string;
+import { createContext, useContext, useState, ReactNode } from 'react';
+
+export type Language = 'en' | 'es' | 'fr';
 
 type LanguageContextType = {
   language: Language;
@@ -59,60 +60,60 @@ const translations = {
     'settings.save': 'Guardar Cambios',
     'settings.success': 'Configuración actualizada con éxito',
   },
-  // Add more languages as needed
+  fr: {
+    'nav.home': 'Accueil',
+    'nav.about': 'À Propos',
+    'nav.faq': 'FAQ',
+    'nav.contact': 'Contact',
+    'nav.howToInvest': 'Comment Investir',
+    'nav.login': 'Connexion',
+    'nav.signup': "S'inscrire",
+    'nav.dashboard': 'Tableau de Bord',
+    'nav.admin': 'Panneau Admin',
+    'nav.settings': 'Paramètres du Compte',
+    'dashboard.totalBalance': 'Solde Total',
+    'dashboard.activeInvestments': 'Investissements Actifs',
+    'dashboard.totalValue': 'Valeur totale',
+    'dashboard.earningsOverview': 'Aperçu des Gains',
+    'dashboard.recentDeposit': 'Dépôt Récent',
+    'dashboard.recentWithdrawal': 'Retrait Récent',
+    'dashboard.recentInvestment': 'Investissement Récent',
+    'settings.title': 'Paramètres du Compte',
+    'settings.name': 'Nom Complet',
+    'settings.email': 'Email',
+    'settings.password': 'Mot de Passe',
+    'settings.save': 'Enregistrer les Modifications',
+    'settings.success': 'Paramètres mis à jour avec succès',
+  }
 };
 
 export const languageNames = {
   en: '🇺🇸 English',
   es: '🇪🇸 Español',
-  fr: '🇫🇷 Français',
-  de: '🇩🇪 Deutsch',
-  it: '🇮🇹 Italiano',
-  pt: '🇵🇹 Português',
-  nl: '🇳🇱 Nederlands',
-  pl: '🇵🇱 Polski',
-  ru: '🇷🇺 Русский',
-  ar: '🇸🇦 العربية',
-  hi: '🇮🇳 हिन्दी',
-  zh: '🇨🇳 中文',
-  ja: '🇯🇵 日本語',
-  ko: '🇰🇷 한국어',
-  tr: '🇹🇷 Türkçe',
-  vi: '🇻🇳 Tiếng Việt',
-  th: '🇹🇭 ไทย',
-  id: '🇮🇩 Bahasa Indonesia',
-  ms: '🇲🇾 Bahasa Melayu',
-  fil: '🇵🇭 Filipino',
-  bn: '🇧🇩 বাংলা',
-  ur: '🇵🇰 اردو',
-  fa: '🇮🇷 فارسی',
-  he: '🇮🇱 עברית',
-  el: '🇬🇷 Ελληνικά',
-  sv: '🇸🇪 Svenska',
-  da: '🇩🇰 Dansk',
-  fi: '🇫🇮 Suomi',
-  no: '🇳🇴 Norsk',
-  cs: '🇨🇿 Čeština',
-  hu: '🇭🇺 Magyar',
-  ro: '🇷🇴 Română',
-  bg: '🇧🇬 Български',
-  uk: '🇺🇦 Українська',
-  hr: '🇭🇷 Hrvatski',
-  sr: '🇷🇸 Српски',
-  sk: '🇸🇰 Slovenčina',
+  fr: '🇫🇷 Français'
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+type LanguageProviderProps = {
+  children: ReactNode;
+};
+
+export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('en');
 
   const t = (key: string): string => {
-    return translations[language as keyof typeof translations]?.[key as keyof typeof translations['en']] || key;
+    return translations[language]?.[key as keyof typeof translations['en']] || key;
+  };
+
+  const value = {
+    language,
+    setLanguage,
+    t
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
