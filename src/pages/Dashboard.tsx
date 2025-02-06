@@ -24,12 +24,10 @@ import {
   YAxis,
 } from "recharts";
 import WithdrawModal from "@/components/WithdrawModal";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 const Dashboard = () => {
   const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const { id: investorId } = useParams();
-  const { t } = useLanguage();
   const isAdmin = true; // Replace with actual admin check logic
   
   const userData = {
@@ -64,7 +62,7 @@ const Dashboard = () => {
                 className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
               >
                 <Home className="w-5 h-5" />
-                <span>{t('nav.home')}</span>
+                <span>Home</span>
               </Link>
               {isAdmin && (
                 <Link
@@ -72,7 +70,7 @@ const Dashboard = () => {
                   className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
                 >
                   <Users className="w-5 h-5" />
-                  <span>{t('nav.admin')}</span>
+                  <span>Admin</span>
                 </Link>
               )}
               <Link
@@ -80,14 +78,14 @@ const Dashboard = () => {
                 className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
               >
                 <Settings className="w-5 h-5" />
-                <span>{t('nav.settings')}</span>
+                <span>Settings</span>
               </Link>
               <Link
                 to="/contact"
                 className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
               >
                 <HeadphonesIcon className="w-5 h-5" />
-                <span>{t('nav.contact')}</span>
+                <span>Contact</span>
               </Link>
             </div>
             <Button
@@ -114,7 +112,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="hover:shadow-lg transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -159,6 +157,23 @@ const Dashboard = () => {
               </p>
             </CardContent>
           </Card>
+
+          <Link to="/account-settings">
+            <Card className="hover:shadow-lg transition-all cursor-pointer">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Account Settings
+                </CardTitle>
+                <UserCog className="w-4 h-4 text-primary" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-lg font-medium">Edit Profile</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Update your account information
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
