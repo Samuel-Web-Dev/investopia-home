@@ -84,3 +84,4 @@ const WithdrawModal = memo(({ open, onOpenChange }: WithdrawModalProps) => {
 WithdrawModal.displayName = "WithdrawModal";
 
 export default WithdrawModal;
+
