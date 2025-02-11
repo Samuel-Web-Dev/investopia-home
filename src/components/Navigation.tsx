@@ -1,4 +1,5 @@
-import { LogIn, UserPlus, Info, HelpCircle, Menu, Phone, Coins, Globe, Shield } from "lucide-react";
+
+import { LogIn, UserPlus, Info, HelpCircle, Menu, Phone, Coins, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useEffect, useState, useCallback, useMemo } from "react";
@@ -7,33 +8,23 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/contexts/LanguageContext";
-import type { Language } from "@/contexts/LanguageContext";
 
 export const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
 
-  // Memoize scroll handler
   const handleScroll = useCallback(() => {
     const isScrolled = window.scrollY > 20;
     setScrolled(isScrolled);
   }, []);
 
   useEffect(() => {
-    // Use passive event listener for better scroll performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Memoize navigation items
   const navItems = useMemo(() => [
     { to: "/about", icon: <Info className="w-4 h-4" />, label: t('nav.about') },
     { to: "/faq", icon: <HelpCircle className="w-4 h-4" />, label: t('nav.faq') },
@@ -42,11 +33,6 @@ export const Navigation = () => {
     { to: "/dashboard", icon: <Menu className="w-4 h-4" />, label: t('nav.dashboard') },
     { to: "/admin", icon: <Shield className="w-4 h-4" />, label: t('nav.admin') },
   ], [t]);
-
-  // Memoize language change handler
-  const handleLanguageChange = useCallback((newLang: Language) => {
-    setLanguage(newLang);
-  }, [setLanguage]);
 
   return (
     <nav 
@@ -80,26 +66,6 @@ export const Navigation = () => {
               {item.label}
             </Link>
           ))}
-          
-          {/* Language Selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-white">
-                <Globe className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setLanguage('en')}>
-                🇺🇸 English {language === 'en' && '✓'}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('es')}>
-                🇪🇸 Español {language === 'es' && '✓'}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('fr')}>
-                🇫🇷 Français {language === 'fr' && '✓'}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
 
           <Button 
             variant="outline" 
@@ -143,21 +109,6 @@ export const Navigation = () => {
                     {item.label}
                   </Link>
                 ))}
-                
-                {/* Mobile Language Selector */}
-                <div className="p-2">
-                  <div className="flex flex-col gap-2">
-                    <button onClick={() => setLanguage('en')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
-                      🇺🇸 English {language === 'en' && '✓'}
-                    </button>
-                    <button onClick={() => setLanguage('es')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
-                      🇪🇸 Español {language === 'es' && '✓'}
-                    </button>
-                    <button onClick={() => setLanguage('fr')} className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg">
-                      🇫🇷 Français {language === 'fr' && '✓'}
-                    </button>
-                  </div>
-                </div>
 
                 <Link
                   to="/login"
