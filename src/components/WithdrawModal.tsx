@@ -2,14 +2,13 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState, useCallback } from "react";
-import { toast } from "@/hooks/use-toast";
+import Swal from "sweetalert2";
 
 interface WithdrawModalProps {
   open: boolean;
@@ -26,18 +25,18 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
 
   const handleWithdraw = useCallback(() => {
     if (!amount || !address) {
-      toast({
+      Swal.fire({
         title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
+        text: "Please fill in all fields",
+        icon: "error",
       });
       return;
     }
 
-    toast({
+    Swal.fire({
       title: "Withdrawal Failed",
-      description: "Withdrawal cannot be made now due to low balance",
-      variant: "destructive",
+      text: "Withdrawal cannot be made now due to low balance",
+      icon: "error",
     });
     onOpenChange(false);
   }, [amount, address, onOpenChange]);
@@ -47,9 +46,6 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Withdraw Funds</DialogTitle>
-          <DialogDescription>
-            Enter the amount you want to withdraw and your wallet address.
-          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="space-y-2">

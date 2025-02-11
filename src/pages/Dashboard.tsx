@@ -102,7 +102,7 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-12">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
             {investorId ? `Managing ${userData.username}'s Account` : `Welcome back, ${userData.username}! 👋`}
