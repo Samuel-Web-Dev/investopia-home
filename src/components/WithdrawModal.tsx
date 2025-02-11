@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback } from "react";
 import { toast } from "@/hooks/use-toast";
 
 interface WithdrawModalProps {
@@ -16,9 +16,13 @@ interface WithdrawModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const WithdrawModal = memo(({ open, onOpenChange }: WithdrawModalProps) => {
+const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
+    setter(e.target.value);
+  }, []);
 
   const handleWithdraw = useCallback(() => {
     if (!amount || !address) {
@@ -37,10 +41,6 @@ const WithdrawModal = memo(({ open, onOpenChange }: WithdrawModalProps) => {
     });
     onOpenChange(false);
   }, [amount, address, onOpenChange]);
-
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
-    setter(e.target.value);
-  }, []);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -79,9 +79,6 @@ const WithdrawModal = memo(({ open, onOpenChange }: WithdrawModalProps) => {
       </DialogContent>
     </Dialog>
   );
-});
-
-WithdrawModal.displayName = "WithdrawModal";
+};
 
 export default WithdrawModal;
-
