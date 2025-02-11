@@ -6,8 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import Swal from "sweetalert2";
 
 interface WithdrawModalProps {
@@ -16,30 +15,14 @@ interface WithdrawModalProps {
 }
 
 const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
-  const [amount, setAmount] = useState("");
-  const [address, setAddress] = useState("");
-
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
-    setter(e.target.value);
-  }, []);
-
   const handleWithdraw = useCallback(() => {
-    if (!amount || !address) {
-      Swal.fire({
-        title: "Error",
-        text: "Please fill in all fields",
-        icon: "error",
-      });
-      return;
-    }
-
     Swal.fire({
       title: "Withdrawal Failed",
       text: "Withdrawal cannot be made now due to low balance",
       icon: "error",
     });
     onOpenChange(false);
-  }, [amount, address, onOpenChange]);
+  }, [onOpenChange]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -47,25 +30,6 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
         <DialogHeader>
           <DialogTitle>Withdraw Funds</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Amount</label>
-            <Input
-              type="number"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={(e) => handleInputChange(e, setAmount)}
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Wallet Address</label>
-            <Input
-              placeholder="Enter your wallet address"
-              value={address}
-              onChange={(e) => handleInputChange(e, setAddress)}
-            />
-          </div>
-        </div>
         <div className="flex justify-end space-x-2">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
