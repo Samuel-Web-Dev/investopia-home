@@ -25,6 +25,9 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
         title: "Error",
         text: "Please fill in all fields",
         icon: "error",
+        didClose: () => {
+          // Do nothing when the error alert closes
+        }
       });
       return;
     }
