@@ -25,8 +25,6 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
         title: "Error",
         text: "Please fill in all fields",
         icon: "error",
-      }).then(() => {
-        onOpenChange(false);
       });
       return;
     }
@@ -35,8 +33,9 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
       title: "Withdrawal Failed",
       text: "Withdrawal cannot be made now due to low balance",
       icon: "error",
+    }).then(() => {
+      onOpenChange(false);
     });
-    onOpenChange(false);
   }, [amount, address, onOpenChange]);
 
   return (
