@@ -19,23 +19,28 @@ const WithdrawModal = ({ open, onOpenChange }: WithdrawModalProps) => {
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
 
-  const handleWithdraw = useCallback(() => {
+  const handleWithdraw = useCallback(async () => {
     if (!amount || !address) {
-      Swal.fire({
+      await Swal.fire({
         title: "Error",
         text: "Please fill in all fields",
         icon: "error",
+        allowOutsideClick: false,
       });
       return;
     }
 
-    Swal.fire({
+    await Swal.fire({
       title: "Withdrawal Failed",
       text: "Withdrawal cannot be made now due to low balance",
       icon: "error",
-    }).then(() => {
-      onOpenChange(false);
+      allowOutsideClick: false,
     });
+    
+    // Only close the main modal after SweetAlert is fully closed
+    setTimeout(() => {
+      onOpenChange(false);
+    }, 100);
   }, [amount, address, onOpenChange]);
 
   return (
