@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -190,27 +191,69 @@ const AdminDashboard = () => {
                           </div>
                           <div>
                             <label className="text-sm font-medium">{t('dashboard.recentDeposit')}</label>
-                            <Input
-                              value={editingInvestor?.recentDeposit.amount}
-                              onChange={(e) => handleChange('recentDeposit.amount', e.target.value)}
-                              className="mt-1"
-                            />
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Amount:</span>
+                                <Input
+                                  value={editingInvestor?.recentDeposit.amount}
+                                  onChange={(e) => handleChange('recentDeposit.amount', e.target.value)}
+                                  className="flex-1"
+                                />
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Date:</span>
+                                <Input
+                                  value={editingInvestor?.recentDeposit.date}
+                                  onChange={(e) => handleChange('recentDeposit.date', e.target.value)}
+                                  className="flex-1"
+                                  type="date"
+                                />
+                              </div>
+                            </div>
                           </div>
                           <div>
                             <label className="text-sm font-medium">{t('dashboard.recentWithdrawal')}</label>
-                            <Input
-                              value={editingInvestor?.recentWithdrawal.amount}
-                              onChange={(e) => handleChange('recentWithdrawal.amount', e.target.value)}
-                              className="mt-1"
-                            />
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Amount:</span>
+                                <Input
+                                  value={editingInvestor?.recentWithdrawal.amount}
+                                  onChange={(e) => handleChange('recentWithdrawal.amount', e.target.value)}
+                                  className="flex-1"
+                                />
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Date:</span>
+                                <Input
+                                  value={editingInvestor?.recentWithdrawal.date}
+                                  onChange={(e) => handleChange('recentWithdrawal.date', e.target.value)}
+                                  className="flex-1"
+                                  type="date"
+                                />
+                              </div>
+                            </div>
                           </div>
                           <div>
                             <label className="text-sm font-medium">{t('dashboard.recentInvestment')}</label>
-                            <Input
-                              value={editingInvestor?.recentInvestment.amount}
-                              onChange={(e) => handleChange('recentInvestment.amount', e.target.value)}
-                              className="mt-1"
-                            />
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Amount:</span>
+                                <Input
+                                  value={editingInvestor?.recentInvestment.amount}
+                                  onChange={(e) => handleChange('recentInvestment.amount', e.target.value)}
+                                  className="flex-1"
+                                />
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Date:</span>
+                                <Input
+                                  value={editingInvestor?.recentInvestment.date}
+                                  onChange={(e) => handleChange('recentInvestment.date', e.target.value)}
+                                  className="flex-1"
+                                  type="date"
+                                />
+                              </div>
+                            </div>
                           </div>
                           <div className="col-span-2">
                             <label className="text-sm font-medium">{t('dashboard.earningsOverview')}</label>
@@ -255,14 +298,17 @@ const AdminDashboard = () => {
                           <div>
                             <p className="text-sm font-medium">{t('dashboard.recentDeposit')}</p>
                             <p className="text-lg text-green-500">+{investor.recentDeposit.amount}</p>
+                            <p className="text-xs text-gray-500">Date: {investor.recentDeposit.date}</p>
                           </div>
                           <div>
                             <p className="text-sm font-medium">{t('dashboard.recentWithdrawal')}</p>
                             <p className="text-lg text-red-500">-{investor.recentWithdrawal.amount}</p>
+                            <p className="text-xs text-gray-500">Date: {investor.recentWithdrawal.date}</p>
                           </div>
                           <div>
                             <p className="text-sm font-medium">{t('dashboard.recentInvestment')}</p>
                             <p className="text-lg text-blue-500">{investor.recentInvestment.amount}</p>
+                            <p className="text-xs text-gray-500">Date: {investor.recentInvestment.date}</p>
                           </div>
                         </div>
                       )}
