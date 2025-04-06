@@ -1,10 +1,11 @@
+
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useNavigate } from "react-router-dom";
-import { Check, ArrowRight, Binance, Ethereum } from "lucide-react";
+import { Check, ArrowRight, Bitcoin, CircleDollarSign } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const DepositPlans = () => {
@@ -207,9 +208,9 @@ const DepositPlans = () => {
                     />
                     <div className="text-center">
                       <div className="flex justify-center mb-2">
-                        {method.id === "binance" && <Binance className="h-6 w-6" />}
-                        {method.id === "ethereum" && <Ethereum className="h-6 w-6" />}
-                        {method.id === "trons" && <Ethereum className="h-6 w-6 rotate-45" />}
+                        {method.id === "binance" && <Bitcoin className="h-6 w-6" />}
+                        {method.id === "ethereum" && <CircleDollarSign className="h-6 w-6" />}
+                        {method.id === "trons" && <CircleDollarSign className="h-6 w-6 rotate-45" />}
                       </div>
                       <p className="font-medium">{method.name}</p>
                     </div>

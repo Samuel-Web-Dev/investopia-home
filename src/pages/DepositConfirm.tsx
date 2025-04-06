@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Binance, Ethereum } from "lucide-react";
+import { Bitcoin, CircleDollarSign } from "lucide-react";
 
 const DepositConfirm = () => {
   const location = useLocation();
@@ -29,9 +29,9 @@ const DepositConfirm = () => {
 
   const getPaymentIcon = () => {
     const method = paymentMethod.toLowerCase();
-    if (method === "binance") return <Binance className="h-8 w-8 mb-2" />;
-    if (method === "ethereum") return <Ethereum className="h-8 w-8 mb-2" />;
-    if (method === "trons") return <Ethereum className="h-8 w-8 mb-2 rotate-45" />;
+    if (method === "binance") return <Bitcoin className="h-8 w-8 mb-2" />;
+    if (method === "ethereum") return <CircleDollarSign className="h-8 w-8 mb-2" />;
+    if (method === "trons") return <CircleDollarSign className="h-8 w-8 mb-2 rotate-45" />;
     return null;
   };
 
