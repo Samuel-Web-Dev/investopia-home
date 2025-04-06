@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useNavigate } from "react-router-dom";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Binance, Ethereum } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const DepositPlans = () => {
@@ -39,18 +39,27 @@ const DepositPlans = () => {
   ];
 
   const paymentMethods = [
-    { id: "bitcoin", name: "Bitcoin" },
-    { id: "ethereum", name: "Ethereum" },
-    { id: "usdt", name: "USDT" },
-    { id: "litecoin", name: "Litecoin" },
-    { id: "bybit", name: "Bybit" },
+    { 
+      id: "binance", 
+      name: "Binance",
+      address: "0x808D935358861b8D76d9753b1BC098b6bF887f9B"
+    },
+    { 
+      id: "ethereum", 
+      name: "Ethereum",
+      address: "0x808D935358861b8D76d9753b1BC098b6bF887f9B"
+    },
+    { 
+      id: "trons", 
+      name: "Trons",
+      address: "TEpwrWRmmCumTmMmLbYP4PM3nbEmsMFdzE"
+    },
   ];
 
   const handleAmountChange = (value: string) => {
     setAmount(value);
     const numAmount = Number(value);
     
-    // Find appropriate plan based on amount
     const appropriatePlan = plans.find(
       plan => numAmount >= plan.min && 
       (plan.max === "Unlimited" || numAmount <= Number(plan.max))
@@ -105,12 +114,14 @@ const DepositPlans = () => {
     if (!validateAmount()) return;
     
     const selectedPlanDetails = plans.find(plan => plan.name === selectedPlan);
+    const selectedPaymentDetails = paymentMethods.find(method => method.id === selectedPayment);
     
     navigate('/deposit-confirm', {
       state: {
         plan: selectedPlanDetails,
-        paymentMethod: selectedPayment,
-        amount: amount
+        paymentMethod: selectedPaymentDetails.name,
+        amount: amount,
+        paymentAddress: selectedPaymentDetails.address
       }
     });
   };
@@ -177,7 +188,7 @@ const DepositPlans = () => {
               <RadioGroup
                 value={selectedPayment}
                 onValueChange={setSelectedPayment}
-                className="grid grid-cols-2 md:grid-cols-5 gap-4"
+                className="grid grid-cols-1 md:grid-cols-3 gap-4"
               >
                 {paymentMethods.map((method) => (
                   <div
@@ -195,6 +206,11 @@ const DepositPlans = () => {
                       className="absolute right-2 top-2"
                     />
                     <div className="text-center">
+                      <div className="flex justify-center mb-2">
+                        {method.id === "binance" && <Binance className="h-6 w-6" />}
+                        {method.id === "ethereum" && <Ethereum className="h-6 w-6" />}
+                        {method.id === "trons" && <Ethereum className="h-6 w-6 rotate-45" />}
+                      </div>
                       <p className="font-medium">{method.name}</p>
                     </div>
                   </div>

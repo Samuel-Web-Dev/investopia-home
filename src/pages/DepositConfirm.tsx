@@ -1,15 +1,14 @@
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
+import { Binance, Ethereum } from "lucide-react";
 
 const DepositConfirm = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { plan, paymentMethod, amount } = location.state || {};
-
-  // Random payment address (this would be replaced by admin later)
-  const paymentAddress = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh";
+  const { plan, paymentMethod, amount, paymentAddress } = location.state || {};
 
   const handleDeposit = () => {
     toast({
@@ -23,10 +22,18 @@ const DepositConfirm = () => {
     navigate('/deposit-plans');
   };
 
-  if (!plan || !paymentMethod || !amount) {
+  if (!plan || !paymentMethod || !amount || !paymentAddress) {
     navigate('/deposit-plans');
     return null;
   }
+
+  const getPaymentIcon = () => {
+    const method = paymentMethod.toLowerCase();
+    if (method === "binance") return <Binance className="h-8 w-8 mb-2" />;
+    if (method === "ethereum") return <Ethereum className="h-8 w-8 mb-2" />;
+    if (method === "trons") return <Ethereum className="h-8 w-8 mb-2 rotate-45" />;
+    return null;
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-20">
@@ -63,9 +70,15 @@ const DepositConfirm = () => {
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg mb-6">
-              <h3 className="font-medium mb-2">Payment Address</h3>
-              <p className="text-gray-600 break-all font-mono">
+              <div className="flex flex-col items-center mb-4">
+                {getPaymentIcon()}
+                <h3 className="font-medium text-lg">{paymentMethod} Payment Address</h3>
+              </div>
+              <p className="text-gray-600 break-all font-mono text-center bg-white p-4 rounded border">
                 {paymentAddress}
+              </p>
+              <p className="mt-4 text-sm text-center text-gray-500">
+                Please send your payment to the address above. The transaction will be processed after confirmation.
               </p>
             </div>
 
