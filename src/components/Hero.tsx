@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, DollarSign, Percent } from "lucide-react";
 import { useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Carousel,
   CarouselContent,
@@ -21,7 +22,8 @@ const heroImages = [
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
 ] as const;
 
-export const Hero = () => {
+export const Hero = ({ isAuthenticated }) => {
+  const navigate = useNavigate()
   // Memoize carousel plugin to prevent recreation on each render
   const autoplayPlugin = useMemo(
     () =>
@@ -35,11 +37,16 @@ export const Hero = () => {
   // Memoize button click handlers
   const handleStartInvesting = useCallback(() => {
     // Handle start investing action
-  }, []);
+     if(isAuthenticated) {
+       navigate('/investor/dashboard')
+     } else {
+       navigate('/login')
+     }
+  }, [isAuthenticated, navigate]);
 
   const handleViewPlans = useCallback(() => {
-    // Handle view plans action
-  }, []);
+    navigate('/investor/dashboard')
+  }, [navigate]);
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-primary-dark via-purple-900 to-primary text-white mt-16 will-change-transform">

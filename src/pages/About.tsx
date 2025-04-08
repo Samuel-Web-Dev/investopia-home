@@ -6,7 +6,10 @@ import { Stats } from "@/components/Stats";
 import { PaymentMethods } from "@/components/PaymentMethods";
 import { Footer } from "@/components/Footer";
 
+
+
 const About = () => {
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}

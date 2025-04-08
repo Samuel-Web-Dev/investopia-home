@@ -5,8 +5,10 @@ import { Mail, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Footer } from "@/components/Footer";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-const Contact = () => {
+const Contact = ({ isAuthenticated }) => {
+  const navigate = useNavigate()
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -16,6 +18,14 @@ const Contact = () => {
       description: "We'll get back to you within 24 hours.",
     });
   };
+
+  const handleLogin = () => {
+    navigate('/login')
+  }
+
+  const handleSignUp = () => {
+    navigate('/signup')
+  }
 
   return (
     <div className="min-h-screen">
@@ -71,14 +81,16 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
-              <div className="space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
-                <Button className="w-full sm:w-auto bg-accent hover:bg-accent/90">
+               {!isAuthenticated && (
+                <div className="space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
+                   <Button onClick={handleLogin} className="w-full sm:w-auto bg-accent hover:bg-accent/90">
                   Login
                 </Button>
-                <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+                <Button onClick={handleSignUp} className="w-full sm:w-auto bg-primary hover:bg-primary/90">
                   Register
                 </Button>
               </div>
+               )}
             </motion.div>
 
             <motion.form 

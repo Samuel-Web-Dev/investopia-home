@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -13,8 +13,10 @@ import {
   HeadphonesIcon,
   TrendingUp,
   Settings,
+  Menu,
+  Phone
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   Area,
   AreaChart,
@@ -23,89 +25,144 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import WithdrawModal from "@/components/WithdrawModal";
 
-const Dashboard = () => {
-  const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
-  const { id: investorId } = useParams();
-  const isAdmin = true; // Replace with actual admin check logic
+// Loader Component
+const Loader = () => (
+  <div className="flex justify-center items-center h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+  </div>
+);
+
+const Dashboard = ({ setIsAuthenticated }) => {
   
-  const userData = {
-    username: "JohnDoe",
-    balance: "$5,000.00",
-    earnedToday: "$250.00",
-    registrationDate: "2024-01-15",
-    totalInvestors: "1,234",
-    activeInvestments: "3",
-    recentDeposit: { amount: "$1,000", date: "2024-03-18" },
-    recentWithdrawal: { amount: "$500", date: "2024-03-17" },
-    recentInvestment: { amount: "$2,500", date: "2024-03-16" },
+  const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
+  const [loading, setLoading] = useState(true)
+  const [isAuth, setIsAuth] = useState(false);
+  const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [earningsData, setEarningsData] = useState([]);
+
+
+  // ✅ Logout Function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiryDate");
+    setIsAuthenticated(false)
+    navigate("/login"); // Redirect to login
   };
 
-  const earningsData = [
-    { name: "Jan", amount: 2400 },
-    { name: "Feb", amount: 1398 },
-    { name: "Mar", amount: 9800 },
-    { name: "Apr", amount: 3908 },
-    { name: "May", amount: 4800 },
-    { name: "Jun", amount: 3800 },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+        const response = await fetch("https://investpro-h8qu.onrender.com/investor/dashboard", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`, // Add the token to the request
+            "Content-Type": "application/json",
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+    
+        const data = await response.json();
+        console.log(data)
+        
+        setUserData(data.userData[0]);
+        setEarningsData(data.userData[0].earningsOverview);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+   const handleScroll = useCallback(() => {
+      setScrolled(window.scrollY > 20);
+    }, []);
+  
+    useEffect(() => {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
+    }, [handleScroll]);
+
+
+    if (loading) {
+      return <Loader />;
+    }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <nav className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4 overflow-x-auto pb-2 md:pb-0">
-              <Link
-                to="/dashboard"
-                className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
-              >
-                <Home className="w-5 h-5" />
-                <span>Home</span>
-              </Link>
-              {isAdmin && (
-                <Link
-                  to="/admin"
-                  className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
-                >
-                  <Users className="w-5 h-5" />
-                  <span>Admin</span>
-                </Link>
-              )}
-              <Link
-                to="/account-settings"
-                className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
-              >
-                <Settings className="w-5 h-5" />
-                <span>Settings</span>
-              </Link>
-              <Link
-                to="/contact"
-                className="flex items-center space-x-2 text-primary hover:text-primary/80 whitespace-nowrap"
-              >
-                <HeadphonesIcon className="w-5 h-5" />
-                <span>Contact</span>
-              </Link>
-            </div>
-            <Button
-              variant="ghost"
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10 whitespace-nowrap"
-              onClick={() => {
-                console.log("Logout clicked");
-              }}
-            >
-              <LogOut className="w-5 h-5 mr-2" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </nav>
+      <nav className={`fixed w-full top-0 left-0 right-0 z-50 bg-primary-dark/95 text-white py-4 px-6 transition-all duration-300 ease-in-out ${scrolled ? 'shadow-lg backdrop-blur-sm' : ''}`}>
+  <div className="container mx-auto flex justify-between items-center">
+    <Link to='/' className="text-2xl font-bold flex items-center gap-2 transition-transform hover:scale-105 duration-300">
+      <div className="w-10 h-10 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center animate-pulse">
+        <span className="text-white font-bold text-xl">S</span>
+      </div>
+      <span className="animate-fadeIn delay-100">Simplex</span>
+    </Link>
 
-      <div className="container mx-auto px-4 py-12">
+    <div className="hidden md:flex items-center gap-6">
+        <>
+          <Link to="/investor/dashboard" className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn">
+            <Menu className="w-4 h-4" />
+            Dashboard
+          </Link>
+          <Link to={`/investor/dashboard/account-settings`} state={{ name: userData.firstName, email: userData.email, userId: userData._id }} className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn">
+            <Settings className="w-4 h-4" />
+            Settings
+          </Link>
+          <Link to="/contact" className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn">
+            <HeadphonesIcon className="w-4 h-4" />
+            Contact
+          </Link>
+          <Button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 transition-all duration-300">
+            <LogOut className="w-4 h-4 mr-2" /> Logout
+          </Button>
+        </>
+    </div>
+
+    <div className="md:hidden">
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="ghost" size="icon" className="text-white">
+            <Menu className="h-6 w-6" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="right" className="w-[300px] bg-primary-dark text-white">
+          <div className="flex flex-col gap-4 pt-10">
+              <>
+              <Link to="/investor/dashboard" className="flex items-center gap-2 hover:text-primary transition-all duration-300 hover:scale-105 animate-fadeIn">
+            <Menu className="w-4 h-4" />
+            Dashboard
+          </Link>
+                <Link to="/contact" className="flex items-center gap-2 p-2 hover:bg-accent/20 rounded-lg transition-colors">
+                  <Phone className="w-4 h-4" /> Contact
+                </Link>
+                <button onClick={handleLogout} className="flex items-center gap-2 p-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors">
+                  <LogOut className="w-4 h-4" /> Logout
+                </button>
+              </>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  </div>
+</nav>
+
+
+      <div className="container mx-auto px-4 py-12 pt-28">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            {investorId ? `Managing ${userData.username}'s Account` : `Welcome back, ${userData.username}! 👋`}
+            { `Welcome back, ${userData.firstName}! 👋`}
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
             Here's what's happening with your investments today.
@@ -121,7 +178,7 @@ const Dashboard = () => {
               <Wallet className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.balance}</div>
+              <div className="text-2xl font-bold">{userData.accBalance }</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Available for withdrawal
               </p>
@@ -138,7 +195,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="text-2xl font-bold">{userData.activeInvestments}</div>
               <p className="text-xs text-green-500 mt-1">
-                Total value: {userData.balance}
+                Total value: {userData.accBalance}
               </p>
             </CardContent>
           </Card>
@@ -151,14 +208,14 @@ const Dashboard = () => {
               <History className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.registrationDate}</div>
+              <div className="text-2xl font-bold">{userData.registerDate}</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Member since
               </p>
             </CardContent>
           </Card>
 
-          <Link to="/account-settings">
+          <Link to={`/investor/dashboard/account-settings`} state={{ name: userData.firstName, email: userData.email, userId: userData._id }}>
             <Card className="hover:shadow-lg transition-all cursor-pointer">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -256,7 +313,7 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
-          <Link to="/deposit-plans">
+          <Link to="/investor/dashboard/deposit-plans">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="flex items-center justify-between p-6">
                 <div className="flex items-center space-x-4">

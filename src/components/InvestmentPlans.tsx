@@ -1,14 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Clock, DollarSign, Users, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const InvestmentPlans = () => {
+  const navigate = useNavigate()
   const plans = [
     {
       name: "Starter Plan",
       returns: "10%",
       duration: "24 Hours",
-      min: 20,
+      min: 200,
       max: 2999,
       commission: "2.5%",
       features: ["Instant Withdrawals", "24/7 Support", "Real-time Tracking"],
@@ -32,6 +34,10 @@ export const InvestmentPlans = () => {
       features: ["VIP Support", "Custom Strategy", "Maximum Returns"],
     },
   ];
+
+  const handleChoosePlan = () => {
+    navigate('/investor/dashboard')
+  }
 
   return (
     <div className="py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -89,7 +95,7 @@ export const InvestmentPlans = () => {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full bg-accent hover:bg-accent/90 text-white group">
+                <Button onClick={handleChoosePlan} className="w-full bg-accent hover:bg-accent/90 text-white group">
                   Choose Plan
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>

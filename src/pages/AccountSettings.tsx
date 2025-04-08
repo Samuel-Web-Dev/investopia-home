@@ -1,41 +1,79 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { UserCog } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const AccountSettings = () => {
+  const { state } = useLocation();
+  const { name, email, userId } = state || {};
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    name: "John Doe",
-    email: "john@example.com",
+    name: name || '',
+    email: email || '',
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formData.newPassword !== formData.confirmPassword) {
       toast({
         title: "Error",
         description: "New passwords do not match",
-        variant: "destructive",
+        // variant: "destructive",
       });
       return;
     }
-
-    // Here you would typically make an API call to update the user's information
-    console.log("Updating user information:", formData);
-    
-    toast({
-      title: "Success",
-      description: "Your account settings have been updated",
-    });
+  
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`https://investpro-h8qu.onrender.com/investor/dashboard/account_setting/${userId}`, {
+        method: "PUT", 
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          currentPassword: formData.currentPassword,
+          newPassword: formData.newPassword,
+          confirmPassword: formData.confirmPassword
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update account settings");
+      }
+  
+      const data = await response.json();
+      console.log(data)
+      toast({
+        title: "Success",
+        description: data.message || "Your account settings have been updated",
+      });
+      
+      navigate("/investor/dashboard");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update account settings",
+        // variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
