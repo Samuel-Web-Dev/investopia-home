@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
+=======
+
+import { useState } from "react";
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -290,6 +295,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                             />
                           </div>
                           <div>
+<<<<<<< HEAD
                             <label className="text-sm font-medium">
                               {t("dashboard.recentDeposit")}
                             </label>
@@ -306,10 +312,20 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                                       e.target.value
                                     )
                                   }
+=======
+                            <label className="text-sm font-medium">{t('dashboard.recentDeposit')}</label>
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Amount:</span>
+                                <Input
+                                  value={editingInvestor?.recentDeposit.amount}
+                                  onChange={(e) => handleChange('recentDeposit.amount', e.target.value)}
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
                                   className="flex-1"
                                 />
                               </div>
                               <div className="flex items-center gap-2">
+<<<<<<< HEAD
                                 <span className="text-xs text-gray-500">
                                   Date:
                                 </span>
@@ -321,6 +337,12 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                                       e.target.value
                                     )
                                   }
+=======
+                                <span className="text-xs text-gray-500">Date:</span>
+                                <Input
+                                  value={editingInvestor?.recentDeposit.date}
+                                  onChange={(e) => handleChange('recentDeposit.date', e.target.value)}
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
                                   className="flex-1"
                                   type="date"
                                 />
@@ -328,6 +350,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                             </div>
                           </div>
                           <div>
+<<<<<<< HEAD
                             <label className="text-sm font-medium">
                               {t("dashboard.recentWithdrawal")}
                             </label>
@@ -346,10 +369,20 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                                       e.target.value
                                     )
                                   }
+=======
+                            <label className="text-sm font-medium">{t('dashboard.recentWithdrawal')}</label>
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Amount:</span>
+                                <Input
+                                  value={editingInvestor?.recentWithdrawal.amount}
+                                  onChange={(e) => handleChange('recentWithdrawal.amount', e.target.value)}
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
                                   className="flex-1"
                                 />
                               </div>
                               <div className="flex items-center gap-2">
+<<<<<<< HEAD
                                 <span className="text-xs text-gray-500">
                                   Date:
                                 </span>
@@ -361,6 +394,12 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                                       e.target.value
                                     )
                                   }
+=======
+                                <span className="text-xs text-gray-500">Date:</span>
+                                <Input
+                                  value={editingInvestor?.recentWithdrawal.date}
+                                  onChange={(e) => handleChange('recentWithdrawal.date', e.target.value)}
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
                                   className="flex-1"
                                   type="date"
                                 />
@@ -368,6 +407,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                             </div>
                           </div>
                           <div>
+<<<<<<< HEAD
                             <label className="text-sm font-medium">
                               {t("dashboard.recentInvestment")}
                             </label>
@@ -386,10 +426,20 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                                       e.target.value
                                     )
                                   }
+=======
+                            <label className="text-sm font-medium">{t('dashboard.recentInvestment')}</label>
+                            <div className="space-y-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-500">Amount:</span>
+                                <Input
+                                  value={editingInvestor?.recentInvestment.amount}
+                                  onChange={(e) => handleChange('recentInvestment.amount', e.target.value)}
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
                                   className="flex-1"
                                 />
                               </div>
                               <div className="flex items-center gap-2">
+<<<<<<< HEAD
                                 <span className="text-xs text-gray-500">
                                   Date:
                                 </span>
@@ -401,6 +451,12 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                                       e.target.value
                                     )
                                   }
+=======
+                                <span className="text-xs text-gray-500">Date:</span>
+                                <Input
+                                  value={editingInvestor?.recentInvestment.date}
+                                  onChange={(e) => handleChange('recentInvestment.date', e.target.value)}
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
                                   className="flex-1"
                                   type="date"
                                 />
@@ -470,6 +526,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                             </p>
                           </div>
                           <div>
+<<<<<<< HEAD
                             <p className="text-sm font-medium">
                               {t("dashboard.recentDeposit")}
                             </p>
@@ -501,6 +558,21 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                             <p className="text-xs text-gray-500">
                               Date: {investor.recentInvestment.date}
                             </p>
+=======
+                            <p className="text-sm font-medium">{t('dashboard.recentDeposit')}</p>
+                            <p className="text-lg text-green-500">+{investor.recentDeposit.amount}</p>
+                            <p className="text-xs text-gray-500">Date: {investor.recentDeposit.date}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">{t('dashboard.recentWithdrawal')}</p>
+                            <p className="text-lg text-red-500">-{investor.recentWithdrawal.amount}</p>
+                            <p className="text-xs text-gray-500">Date: {investor.recentWithdrawal.date}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">{t('dashboard.recentInvestment')}</p>
+                            <p className="text-lg text-blue-500">{investor.recentInvestment.amount}</p>
+                            <p className="text-xs text-gray-500">Date: {investor.recentInvestment.date}</p>
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
                           </div>
                         </div>
                       )}

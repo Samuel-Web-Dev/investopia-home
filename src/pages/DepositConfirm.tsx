@@ -23,7 +23,11 @@ const DepositConfirm = () => {
   };
 
   if (!plan || !paymentMethod || !amount || !paymentAddress) {
+<<<<<<< HEAD
     navigate('/investor/dashboard/deposit-plans');
+=======
+    navigate('/deposit-plans');
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
     return null;
   }
 

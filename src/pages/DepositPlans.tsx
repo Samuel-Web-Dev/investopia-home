@@ -1,10 +1,18 @@
 
+<<<<<<< HEAD
 import { useState, useEffect, useCallback } from "react";
+=======
+import { useState } from "react";
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+<<<<<<< HEAD
 import { useNavigate, Link } from "react-router-dom";
+=======
+import { useNavigate } from "react-router-dom";
+>>>>>>> 90336d053bea9f3069e44123ba6419be4792cc68
 import { Check, ArrowRight, Bitcoin, CircleDollarSign } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
