@@ -283,7 +283,7 @@ const handleLogout = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Current Balance:</span>
-                <span className="text-2xl font-bold text-primary">{userData.accBalance}</span>
+                <span className="text-2xl font-bold text-primary">{`${userData.accBalance}`}</span>
               </div>
             </CardContent>
           </Card>

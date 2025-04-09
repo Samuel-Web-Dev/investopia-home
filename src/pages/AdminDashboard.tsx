@@ -456,7 +456,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                             <p className="text-sm font-medium">
                               {t("dashboard.totalBalance")}
                             </p>
-                            <p className="text-lg">{investor.accBalance}</p>
+                            <p className="text-lg">{`$${investor.accBalance}`}</p>
                           </div>
                           <div>
                             <p className="text-sm font-medium">
@@ -466,7 +466,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                               {investor.activeInvestments}
                             </p>
                             <p className="text-sm text-muted-foreground">
-                              {t("dashboard.totalValue")}: {investor.accBalance}
+                              {t("dashboard.totalValue")}: {`$${investor.accBalance}`}
                             </p>
                           </div>
                           <div>
@@ -474,7 +474,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                               {t("dashboard.recentDeposit")}
                             </p>
                             <p className="text-lg text-green-500">
-                              +{investor.recentDeposit.amount}
+                              +{`$${investor.recentDeposit.amount}`}
                             </p>
                             <p className="text-xs text-gray-500">
                               Date: {investor.recentDeposit.date}
@@ -485,7 +485,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                               {t("dashboard.recentWithdrawal")}
                             </p>
                             <p className="text-lg text-red-500">
-                              -{investor.recentWithdrawal.amount}
+                              -{`$${investor.recentWithdrawal.amount}`}
                             </p>
                             <p className="text-xs text-gray-500">
                               Date: {investor.recentWithdrawal.date}
@@ -496,7 +496,7 @@ const AdminDashboard = ({ setIsAuthenticated }) => {
                               {t("dashboard.recentInvestment")}
                             </p>
                             <p className="text-lg text-blue-500">
-                              {investor.recentInvestment.amount}
+                              {`$${investor.recentInvestment.amount}`}
                             </p>
                             <p className="text-xs text-gray-500">
                               Date: {investor.recentInvestment.date}

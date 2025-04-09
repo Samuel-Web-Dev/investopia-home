@@ -178,7 +178,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
               <Wallet className="w-4 h-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{userData.accBalance }</div>
+              <div className="text-2xl font-bold">{`$${userData.accBalance}` }</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Available for withdrawal
               </p>
@@ -195,7 +195,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
             <CardContent>
               <div className="text-2xl font-bold">{userData.activeInvestments}</div>
               <p className="text-xs text-green-500 mt-1">
-                Total value: {userData.accBalance}
+                Total value: {`$${userData.accBalance}`}
               </p>
             </CardContent>
           </Card>
@@ -282,7 +282,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-green-500">
-                    +{userData.recentDeposit.amount}
+                    +{`$${userData.recentDeposit.amount}`}
                   </p>
                 </div>
               </div>
@@ -293,14 +293,14 @@ const Dashboard = ({ setIsAuthenticated }) => {
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-red-500">
-                    -{userData.recentWithdrawal.amount}
+                    -{`$${userData.recentWithdrawal.amount}`}
                   </p>
                 </div>
               </div>
               <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div>
                   <p className="font-medium">Recent Investment</p>
-                  <p className="text-sm text-gray-500">{userData.recentInvestment.date}</p>
+                  <p className="text-sm text-gray-500">{`$${userData.recentInvestment.date}`}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-blue-500">

@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { UserPlus } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -69,7 +71,7 @@ const Signup = () => {
       if (response.ok) {
         toast.success("Account created successfully! Redirecting...");
         setTimeout(() => {
-          window.location.href = "/login";
+          navigate('/login')
         }, 2000);
       } else {
         toast.error(data.message);
@@ -118,9 +120,9 @@ const Signup = () => {
             </Button>
             <p className="text-center text-sm text-gray-600">
               Already have an account?{" "}
-              <a href="/login" className="text-primary hover:underline">
+              <Link to="/login" className="text-primary hover:underline">
                 Sign in
-              </a>
+              </Link>
             </p>
           </form>
         </CardContent>
