@@ -71,7 +71,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
         }
     
         const data = await response.json();
-        console.log(data)
         
         setUserData(data.userData[0]);
         setEarningsData(data.userData[0].earningsOverview);
@@ -300,11 +299,11 @@ const Dashboard = ({ setIsAuthenticated }) => {
               <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div>
                   <p className="font-medium">Recent Investment</p>
-                  <p className="text-sm text-gray-500">{`$${userData.recentInvestment.date}`}</p>
+                  <p className="text-sm text-gray-500">{userData.recentInvestment.date}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-blue-500">
-                    {userData.recentInvestment.amount}
+                    {`$${userData.recentInvestment.amount}`}
                   </p>
                 </div>
               </div>

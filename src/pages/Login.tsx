@@ -52,8 +52,6 @@ const Login = ({ setIsAuthenticated }) => {
 
       const data = await response.json();
 
-      console.log(data.user)
-
       if (!response.ok) {
         throw new Error(data.message || "Login failed. Please try again.");
       }
